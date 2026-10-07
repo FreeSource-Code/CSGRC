@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity GRC | Call for Book Chapters 2026</title>
+  <meta name="description"
+    content="Cybersecurity Governance, Risk, and Compliance in the Age of AI and Global Regulation. Published by Bentham Science (Scopus Indexed). Submit to cgrc2027@gmail.com.">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DE5A1E'><path d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z'/><path d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z'/></svg>">
+</head>
+
+<body>
+
+  <!-- ==========================================================================
+       HEADER (Pure Clean White - Exact Screenshot Match)
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar" aria-label="Main Navigation">
+        <!-- Logo (Clean text without book icon) -->
+        <a href="index.html" class="brand-logo">
+          <span>CYBERSECURITY <span class="logo-orange">GRC.</span></span>
+        </a>
+
+        <!-- Links (Clean without any dots or bullets) -->
+        <div class="nav-links" id="nav-links">
+          <a href="#about" class="nav-link">ABOUT</a>
+          <a href="#chapters" class="nav-link">CHAPTERS</a>
+          <a href="#editors" class="nav-link">EDITORS</a>
+          <a href="#guidelines" class="nav-link nav-link-cta">SUBMIT ↗</a>
+        </div>
+
+        <button class="mobile-toggle" id="mobile-nav-toggle" aria-label="Toggle Menu">☰</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       HERO SECTION (Split Layout Exact Match)
+       ========================================================================== -->
+  <section class="hero-section" id="hero">
+    <div class="container">
+      <div class="hero-grid">
+
+        <!-- Left Side: Editorial Typography -->
+        <div class="hero-left">
+          <div class="hero-meta-pill">
+            <span class="square-dot"></span>
+            <span>CALL FOR BOOK CHAPTERS &bull; 2026</span>
+          </div>
+
+          <h1 class="hero-title">
+            Cybersecurity<br>
+            Governance, Risk<br>
+            <span class="text-accent">& Compliance</span>
+          </h1>
+
+          <div class="hero-subtitle">
+            In the Age of AI and Global Regulation
+          </div>
+
+          <p class="hero-desc">
+            A call to researchers, academicians, and industry experts shaping a safer digital tomorrow.
+          </p>
+
+          <div class="hero-footer-bar">
+            <span>PUBLISHED BY <strong>BENTHAM SCIENCE</strong></span>
+            <span class="divider">|</span>
+            <span>Scopus Indexed</span>
+          </div>
+        </div>
+
+        <!-- Right Side: 3D Rotating Cyber Globe (Interactive Spherical Projection) -->
+        <div class="hero-right hero-globe-stage" id="hero-globe-stage">
+          <div class="hero-globe-frame" id="hero-globe-container">
+            <canvas id="cyber-globe-canvas" class="cyber-globe-canvas"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 01: CHAPTER OUTLINE (Screenshot 1 Match)
+       ========================================================================== -->
+  <section class="chapter-outline-section" id="chapters">
+    <div class="container">
+      <div class="section-editorial-header">
+        <h2 class="section-editorial-title">CHAPTER OUTLINE</h2>
+        <span class="section-editorial-tag">01 &mdash; AREAS OF CONTRIBUTION</span>
+      </div>
+
+      <!-- 3 Core Clusters / Cards (Screenshot 1 Match) -->
+      <div class="clusters-3-grid">
+        <!-- 01 -->
+        <div class="cluster-card">
+          <div class="cluster-num">01.</div>
+          <h3 class="cluster-heading">Governance & Strategy</h3>
+          <p class="cluster-desc">
+            Foundations for resilient organizations in a changing regulatory landscape.
+          </p>
+          <a href="javascript:void(0)" class="cluster-link" onclick="toggleTopicsShelf('governance')">
+            Explore topics &darr;
+          </a>
+        </div>
+
+        <!-- 02 -->
+        <div class="cluster-card">
+          <div class="cluster-num">02.</div>
+          <h3 class="cluster-heading">Intelligence & Resilience</h3>
+          <p class="cluster-desc">
+            New approaches to risk, data protection, and security in the age of AI.
+          </p>
+          <a href="javascript:void(0)" class="cluster-link" onclick="toggleTopicsShelf('intelligence')">
+            Explore topics &darr;
+          </a>
+        </div>
+
+        <!-- 03 -->
+        <div class="cluster-card">
+          <div class="cluster-num">03.</div>
+          <h3 class="cluster-heading">Compliance & the Future</h3>
+          <p class="cluster-desc">
+            Connecting emerging technology with accountable, forward-looking practice.
+          </p>
+          <a href="javascript:void(0)" class="cluster-link" onclick="toggleTopicsShelf('compliance')">
+            Explore topics &darr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Footer Note (Screenshot 1 Match) -->
+      <div class="clusters-footer-note">
+        Topics include, but are not limited to, these areas.
+      </div>
+
+      <!-- Expandable Shelf Containing All 14 Topics with Search -->
+      <div class="full-topics-shelf" id="all-topics-shelf">
+        <div class="shelf-toolbar">
+          <div class="shelf-search">
+            <input type="text" id="topic-search-input"
+              placeholder="Search across all 14 chapter topics (e.g. AI, Zero-Trust, Cloud)...">
+          </div>
+          <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">
+            14 OFFICIAL TOPICS AVAILABLE
+          </div>
+        </div>
+
+        <div class="topics-14-grid" id="topics-list-container">
+          <!-- 01 -->
+          <div class="topic-single-box" data-cat="governance">
+            <div class="topic-single-num">01</div>
+            <div class="topic-single-body">
+              <h4>Foundations of Cybersecurity Governance, Risk, and Compliance</h4>
+              <a href="javascript:void(0)"
+                onclick="openSubmissionDrawer('01', 'Foundations of Cybersecurity Governance, Risk, and Compliance')"
+                class="topic-single-action">Submit for Topic 01 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 02 -->
+          <div class="topic-single-box" data-cat="intelligence">
+            <div class="topic-single-num">02</div>
+            <div class="topic-single-body">
+              <h4>AI Oversight and Ethical Governance</h4>
+              <a href="javascript:void(0)" onclick="openSubmissionDrawer('02', 'AI Oversight and Ethical Governance')"
+                class="topic-single-action">Submit for Topic 02 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 03 -->
+          <div class="topic-single-box" data-cat="compliance">
+            <div class="topic-single-num">03</div>
+            <div class="topic-single-body">
+              <h4>Global Regulatory Volatility and Compliance Challenges</h4>
+              <a href="javascript:void(0)"
+                onclick="openSubmissionDrawer('03', 'Global Regulatory Volatility and Compliance Challenges')"
+                class="topic-single-action">Submit for Topic 03 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 04 -->
+          <div class="topic-single-box" data-cat="compliance">
+            <div class="topic-single-num">04</div>
+            <div class="topic-single-body">
+              <h4>Cybersecurity as a Regulatory Priority</h4>
+              <a href="javascript:void(0)"
+                onclick="openSubmissionDrawer('04', 'Cybersecurity as a Regulatory Priority')"
+                class="topic-single-action">Submit for Topic 04 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 05 -->
+          <div class="topic-single-box" data-cat="intelligence">
+            <div class="topic-single-num">05</div>
+            <div class="topic-single-body">
+              <h4>Zero-Trust Architectures in GRC</h4>
+              <a href="javascript:void(0)" onclick="openSubmissionDrawer('05', 'Zero-Trust Architectures in GRC')"
+                class="topic-single-action">Submit for Topic 05 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 06 -->
+          <div class="topic-single-box" data-cat="intelligence">
+            <div class="topic-single-num">06</div>
+            <div class="topic-single-body">
+              <h4>Data Governance and Privacy by Design</h4>
+              <a href="javascript:void(0)" onclick="openSubmissionDrawer('06', 'Data Governance and Privacy by Design')"
+                class="topic-single-action">Submit for Topic 06 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 07 -->
+          <div class="topic-single-box" data-cat="intelligence">
+            <div class="topic-single-num">07</div>
+            <div class="topic-single-body">
+              <h4>Risk Intelligence in the Age of AI</h4>
+              <a href="javascript:void(0)" onclick="openSubmissionDrawer('07', 'Risk Intelligence in the Age of AI')"
+                class="topic-single-action">Submit for Topic 07 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 08 -->
+          <div class="topic-single-box" data-cat="intelligence">
+            <div class="topic-single-num">08</div>
+            <div class="topic-single-body">
+              <h4>Resilience and Incident-Response Frameworks</h4>
+              <a href="javascript:void(0)"
+                onclick="openSubmissionDrawer('08', 'Resilience and Incident-Response Frameworks')"
+                class="topic-single-action">Submit for Topic 08 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 09 -->
+          <div class="topic-single-box" data-cat="intelligence">
+            <div class="topic-single-num">09</div>
+            <div class="topic-single-body">
+              <h4>Cloud Security and Compliance in Multi-Cloud Environments</h4>
+              <a href="javascript:void(0)"
+                onclick="openSubmissionDrawer('09', 'Cloud Security and Compliance in Multi-Cloud Environments')"
+                class="topic-single-action">Submit for Topic 09 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 10 -->
+          <div class="topic-single-box" data-cat="governance">
+            <div class="topic-single-num">10</div>
+            <div class="topic-single-body">
+              <h4>Cybersecurity and ESG Integration</h4>
+              <a href="javascript:void(0)" onclick="openSubmissionDrawer('10', 'Cybersecurity and ESG Integration')"
+                class="topic-single-action">Submit for Topic 10 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 11 -->
+          <div class="topic-single-box" data-cat="intelligence">
+            <div class="topic-single-num">11</div>
+            <div class="topic-single-body">
+              <h4>Remote Workforces and Virtual Workplaces</h4>
+              <a href="javascript:void(0)"
+                onclick="openSubmissionDrawer('11', 'Remote Workforces and Virtual Workplaces')"
+                class="topic-single-action">Submit for Topic 11 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 12 -->
+          <div class="topic-single-box" data-cat="governance">
+            <div class="topic-single-num">12</div>
+            <div class="topic-single-body">
+              <h4>Geopolitical Risks and Cybersecurity Governance</h4>
+              <a href="javascript:void(0)"
+                onclick="openSubmissionDrawer('12', 'Geopolitical Risks and Cybersecurity Governance')"
+                class="topic-single-action">Submit for Topic 12 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 13 -->
+          <div class="topic-single-box" data-cat="compliance">
+            <div class="topic-single-num">13</div>
+            <div class="topic-single-body">
+              <h4>Metrics, Reporting, and Continuous Compliance Monitoring</h4>
+              <a href="javascript:void(0)"
+                onclick="openSubmissionDrawer('13', 'Metrics, Reporting, and Continuous Compliance Monitoring')"
+                class="topic-single-action">Submit for Topic 13 &rarr;</a>
+            </div>
+          </div>
+
+          <!-- 14 -->
+          <div class="topic-single-box" data-cat="compliance">
+            <div class="topic-single-num">14</div>
+            <div class="topic-single-body">
+              <h4>The Future of GRC: From Compliance to Competitive Advantage</h4>
+              <a href="javascript:void(0)"
+                onclick="openSubmissionDrawer('14', 'The Future of GRC: From Compliance to Competitive Advantage')"
+                class="topic-single-action">Submit for Topic 14 &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 02: ABOUT THE BOOK (Screenshot 2 Match - Dark Mode Section)
+       ========================================================================== -->
+  <section class="about-dark-section" id="about">
+    <div class="container">
+      <span class="dark-section-tag">02 &mdash; ABOUT THE BOOK</span>
+
+      <div class="about-dark-grid">
+        <!-- Left Side -->
+        <div class="about-dark-left">
+          <h2>
+            A considered approach to a changing digital world.
+          </h2>
+          <div class="about-book-showcase-stage" id="hero-book-stage">
+            <!-- Standing 3D Hardcover Book (Presentation Showcase Pedestal) -->
+            <div class="about-3d-book-cover hero-3d-book-cover" id="hero-3d-book-cover" title="Click to Open Book & Browse Chapters">
+              <div class="book-pedestal-glow"></div>
+              <img class="book-standing-mockup" src="assets/images/book-3d-hardcover.jpg"
+                alt="Cybersecurity GRC 3D Hardcover Book - Bentham Science">
+              <div class="book-open-cta-pro" id="btn-open-book-trigger">
+                <span class="btn-pulse-indicator"></span>
+                <span class="btn-cta-text">Explore 14 Chapters</span>
+                <span class="btn-cta-arrow">&rarr;</span>
+              </div>
+            </div>
+
+            <!-- Open 3D Monograph Reader (Appears smoothly when opened) -->
+            <div class="hero-open-book-reader about-open-book-reader" id="hero-open-book-reader">
+              <div class="reader-top-bar">
+                <span class="reader-badge-title">Bentham Science &bull; Scopus Monograph</span>
+                <button class="btn-close-book" id="btn-close-book-reader">&times; Close Book</button>
+              </div>
+
+              <div class="book-spread-container">
+                <!-- Left Page: Chapter 01 -->
+                <div class="book-page-left">
+                  <div class="page-header-meta">
+                    <span class="chapter-number-pill" id="book-chapter-index-left">CHAPTER 01</span>
+                    <span id="book-page-num-left" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">Page 1</span>
+                  </div>
+                  <h3 class="chapter-display-title" id="book-chapter-title-left">Foundations of Cybersecurity Governance, Risk, and Compliance</h3>
+                  <div style="margin-top: auto; padding-top: 1.25rem;">
+                    <button class="btn-book-submit-action" id="book-chapter-submit-btn-left">
+                      Submit for Topic 01 &rarr;
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Right Page: Chapter 02 -->
+                <div class="book-page-right">
+                  <div class="page-header-meta">
+                    <span class="chapter-number-pill" id="book-chapter-index-right">CHAPTER 02</span>
+                    <span id="book-page-num-right" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">Page 2</span>
+                  </div>
+                  <h3 class="chapter-display-title" id="book-chapter-title-right">AI Oversight and Ethical Governance</h3>
+                  <div style="margin-top: auto; padding-top: 1.25rem;">
+                    <button class="btn-book-submit-action" id="book-chapter-submit-btn-right">
+                      Submit for Topic 02 &rarr;
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chapter Spread Quick-Jumper -->
+              <div class="reader-thumbnail-strip" id="book-chapter-thumbnails"></div>
+
+              <!-- Bottom Navigation Bar -->
+              <div class="reader-bottom-nav">
+                <button class="btn-book-nav" id="book-nav-prev">&larr; Prev Page</button>
+                <span class="book-progress-badge" id="book-chapter-progress">Chapters 01 &amp; 02 of 14</span>
+                <button class="btn-book-nav" id="book-nav-next">Next Page &rarr;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="about-dark-right">
+          <div class="about-headline-lead">
+            Technology moves fast.<br>
+            Governance must keep pace.
+          </div>
+
+          <p class="about-dark-para">
+            The rapid adoption of Artificial Intelligence, cloud computing, and digital transformation has fundamentally
+            reshaped the cybersecurity landscape. Organizations face increasingly sophisticated cyber threats, evolving
+            regulatory obligations, and growing demands for effective governance, risk management, and compliance.
+          </p>
+
+          <div class="about-dark-feature">
+            <h4>Beyond traditional security</h4>
+            <p>
+              AI-enabled systems and interconnected digital ecosystems require new approaches to constantly changing
+              global regulations.
+            </p>
+          </div>
+
+          <div class="about-dark-feature">
+            <h4>From compliance to resilience</h4>
+            <p>
+              This book explores integrated frameworks that combine advanced technologies, strategic governance, and
+              regulatory compliance to ensure cyber resilience and sustainable business operations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 03: THE EDITORIAL TEAM (Screenshot 3 Match + Real Photos)
+       ========================================================================== -->
+  <section class="editorial-team-section" id="editors">
+    <div class="container">
+      <div class="section-editorial-header">
+        <h2 class="section-editorial-title">THE EDITORIAL TEAM</h2>
+        <span class="section-editorial-tag">03 &mdash; ACADEMIC LEADERSHIP</span>
+      </div>
+
+      <div class="editorial-members-grid">
+        <!-- 01: Dr. Danish Ather -->
+        <div class="member-item-col">
+          <div class="member-header-row">
+            <span class="member-num">01</span>
+          </div>
+          <div class="member-photo-frame">
+            <img src="assets/images/professors/dr-danish-ather.png" alt="Dr. Danish Ather">
+          </div>
+          <h3 class="member-name">Dr. Danish Ather</h3>
+          <div class="member-role">Professor, Department of Artificial Intelligence</div>
+          <p class="member-univ">
+            Tashkent University of Information Technologies named after Muhammad al-Khwarizmi, Tashkent, Uzbekistan
+          </p>
+          <a href="mailto:danishather@gmail.com" class="member-email-link">
+            ✉ danishather@gmail.com
+          </a>
+        </div>
+
+        <!-- 02: Dr. Atul Malhotra -->
+        <div class="member-item-col">
+          <div class="member-header-row">
+            <span class="member-num">02</span>
+          </div>
+          <div class="member-photo-frame">
+            <img src="assets/images/professors/dr-atul-malhotra.png" alt="Dr. Atul Malhotra">
+          </div>
+          <h3 class="member-name">Dr. Atul Malhotra</h3>
+          <div class="member-role">Associate Professor, School of Computer Science and Engineering</div>
+          <p class="member-univ">
+            Lovely Professional University, Punjab, India
+          </p>
+          <a href="mailto:atulmalhotra@gmail.com" class="member-email-link">
+            ✉ atulmalhotra@gmail.com
+          </a>
+        </div>
+
+        <!-- 03: Dr. Ankur Saxena -->
+        <div class="member-item-col">
+          <div class="member-header-row">
+            <span class="member-num">03</span>
+          </div>
+          <div class="member-photo-frame">
+            <img src="assets/images/professors/dr-ankur-saxena.png" alt="Dr. Ankur Saxena">
+          </div>
+          <h3 class="member-name">Dr. Ankur Saxena</h3>
+          <div class="member-role">Professor, School of Computer Science and Engineering</div>
+          <p class="member-univ">
+            Lovely Professional University, Punjab, India
+          </p>
+          <a href="mailto:ankursaxena19june@gmail.com" class="member-email-link">
+            ✉ ankursaxena19june@gmail.com
+          </a>
+        </div>
+
+        <!-- 04: Dr. Shambhu Bhardwaj -->
+        <div class="member-item-col">
+          <div class="member-header-row">
+            <span class="member-num">04</span>
+          </div>
+          <div class="member-photo-frame">
+            <img src="assets/images/professors/dr-shambhu-bhardwaj.png" alt="Dr. Shambhu Bhardwaj">
+          </div>
+          <h3 class="member-name">Dr. Shambhu Bhardwaj</h3>
+          <div class="member-role">Professor, School of Computer Science and Engineering</div>
+          <p class="member-univ">
+            Lovely Professional University, Punjab, India
+          </p>
+          <a href="mailto:shambhu.bhardwaj@gmail.com" class="member-email-link">
+            ✉ shambhu.bhardwaj@gmail.com
+          </a>
+        </div>
+
+        <!-- 05: Dr. Nidhi Sharma -->
+        <div class="member-item-col">
+          <div class="member-header-row">
+            <span class="member-num">05</span>
+          </div>
+          <div class="member-photo-frame">
+            <img src="assets/images/professors/dr-nidhi-sharma.png" alt="Dr. Nidhi Sharma">
+          </div>
+          <h3 class="member-name">Dr. Nidhi Sharma</h3>
+          <div class="member-role">Assistant Professor, School of Computer Science and Engineering</div>
+          <p class="member-univ">
+            Lovely Professional University, Punjab, India
+          </p>
+          <a href="mailto:ns55254@gmail.com" class="member-email-link">
+            ✉ ns55254@gmail.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 04: SUBMISSION GUIDELINES & IMPORTANT DATES (Latest Screenshot 1)
+       ========================================================================== -->
+  <section class="guidelines-dates-section" id="guidelines">
+    <div class="container">
+      <div class="guidelines-dates-grid">
+
+        <!-- Left Column: Submission Guidelines (Screenshot Match) -->
+        <div class="guidelines-col-left">
+          <span class="guidelines-tag-row">04 &mdash; SUBMISSION GUIDELINES</span>
+          <h2 class="guidelines-big-head">Make your<br>contribution count.</h2>
+
+          <div class="guidelines-table-rows">
+            <div class="guideline-row-item">
+              <span class="row-label">Word count</span>
+              <span class="row-value">7,000–8,000 words per full chapter</span>
+            </div>
+            <div class="guideline-row-item">
+              <span class="row-label">Formatting</span>
+              <span class="row-value">IEEE reference style</span>
+            </div>
+            <div class="guideline-row-item">
+              <span class="row-label">Visuals</span>
+              <span class="row-value">Include relevant figures and tables</span>
+            </div>
+            <div class="guideline-row-item">
+              <span class="row-label">Author details</span>
+              <span class="row-value">Complete details and affiliations</span>
+            </div>
+            <div class="guideline-row-item">
+              <span class="row-label">AI policy</span>
+              <span class="row-value">No AI policy. Less than 10% plagiarism.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Important Dates (Screenshot Match) -->
+        <div class="dates-col-right" id="deadlines">
+          <span class="dates-tag-row">IMPORTANT DATES</span>
+
+          <div class="dates-rows-list">
+            <!-- 01 -->
+            <div class="date-row-box">
+              <span class="date-row-num">01</span>
+              <div class="date-row-details">
+                <span class="date-phase-tag accent-phase">Abstract submission</span>
+                <span class="date-phase-val highlight-orange">31 October 2026</span>
+              </div>
+              <span class="date-arrow-icon">↗</span>
+            </div>
+
+            <!-- 02 -->
+            <div class="date-row-box">
+              <span class="date-row-num">02</span>
+              <div class="date-row-details">
+                <span class="date-phase-tag">Abstract acceptance</span>
+                <span class="date-phase-val">7 November 2026</span>
+              </div>
+            </div>
+
+            <!-- 03 -->
+            <div class="date-row-box">
+              <span class="date-row-num">03</span>
+              <div class="date-row-details">
+                <span class="date-phase-tag">Full chapter submission</span>
+                <span class="date-phase-val">21 November 2026</span>
+              </div>
+            </div>
+
+            <!-- 04 -->
+            <div class="date-row-box">
+              <span class="date-row-num">04</span>
+              <div class="date-row-details">
+                <span class="date-phase-tag">Chapter acceptance</span>
+                <span class="date-phase-val">5 December 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 05: BE PART OF THE BOOK & CTA (Latest Screenshot 2)
+       ========================================================================== -->
+  <section class="be-part-section" id="submit">
+    <div class="container">
+      <span class="be-part-tag">05 &mdash; BE PART OF THE BOOK</span>
+
+      <h2 class="be-part-headline">
+        Shape a safer<br>
+        <span class="text-italic-orange">digital tomorrow.</span>
+      </h2>
+
+      <p class="be-part-subtitle">
+        Bring your research, expertise, and perspective to this important work. Send your submission or inquiry to the
+        editorial team.
+      </p>
+
+      <div>
+        <a href="javascript:void(0)"
+          onclick="openDirectEmail('cgrc2027@gmail.com', 'Book Chapter Submission - Cybersecurity GRC', 'Respected Editorial Board,\n\nI would like to submit a chapter proposal for Bentham Science Book: Cybersecurity GRC in the Age of AI.\n\nAuthor Name:\nAffiliation:\nProposed Chapter Topic:\nWorking Title:\nAbstract:')"
+          class="btn-black-submit" id="btn-main-submit">
+          <span>COMPOSE IN GMAIL ↗</span>
+        </a>
+      </div>
+
+      <a href="javascript:void(0)" class="be-part-email-text"
+        onclick="copyTextToClipboard('cgrc2027@gmail.com', 'Submission Email')">
+        cgrc2027@gmail.com
+      </a>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FOOTER RUNNING MARQUEE TICKER (High-Impact Monograph Highlights)
+       ========================================================================== -->
+  <div class="editorial-marquee-wrap footer-marquee" aria-hidden="true">
+    <div class="editorial-marquee-track">
+      <div class="marquee-content-group">
+        <span><span class="marquee-star">✦</span> SCOPUS INDEXED MONOGRAPH</span>
+        <span><span class="marquee-star">✦</span> BENTHAM SCIENCE PUBLISHERS</span>
+        <span><span class="marquee-star">✦</span> 14 PEER-REVIEWED RESEARCH CHAPTERS</span>
+        <span><span class="marquee-star">✦</span> ABSTRACT DEADLINE: OCT 31, 2026</span>
+        <span><span class="marquee-star">✦</span> NO PUBLICATION / APC FEES</span>
+        <span><span class="marquee-star">✦</span> IEEE REFERENCE STYLE</span>
+        <span><span class="marquee-star">✦</span> EDITORIAL DESK: cgrc2027@gmail.com</span>
+      </div>
+      <div class="marquee-content-group" aria-hidden="true">
+        <span><span class="marquee-star">✦</span> SCOPUS INDEXED MONOGRAPH</span>
+        <span><span class="marquee-star">✦</span> BENTHAM SCIENCE PUBLISHERS</span>
+        <span><span class="marquee-star">✦</span> 14 PEER-REVIEWED RESEARCH CHAPTERS</span>
+        <span><span class="marquee-star">✦</span> ABSTRACT DEADLINE: OCT 31, 2026</span>
+        <span><span class="marquee-star">✦</span> NO PUBLICATION / APC FEES</span>
+        <span><span class="marquee-star">✦</span> IEEE REFERENCE STYLE</span>
+        <span><span class="marquee-star">✦</span> EDITORIAL DESK: cgrc2027@gmail.com</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FOOTER (Latest Screenshot 2 Match)
+       ========================================================================== -->
+  <footer class="minimal-footer">
+    <div class="container">
+      <div class="footer-tri-split">
+        <div class="foot-brand">CYBERSECURITY GRC.</div>
+        <div class="foot-center">BENTHAM SCIENCE &bull; CALL FOR CHAPTERS 2026</div>
+        <button class="foot-top-btn" id="scroll-to-top" title="Back to top">↗</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       FULL POSTER LIGHTBOX MODAL
+       ========================================================================== -->
+  <div class="poster-modal" id="poster-modal">
+    <div class="poster-modal-content">
+      <button class="poster-modal-close" id="close-poster-modal" aria-label="Close Poster">&times;</button>
+      <img src="assets/images/official-poster.jpg" alt="Full Resolution Official Call for Book Chapters Poster">
+    </div>
+  </div>
+
+  <!-- Interactive Submission Proposal Drawer/Modal -->
+  <div class="poster-modal" id="submission-drawer-modal">
+    <div class="poster-modal-content" style="max-width: 600px; padding: 2.5rem; background: #ffffff;">
+      <button class="poster-modal-close" id="close-sub-drawer"
+        style="top: 15px; right: 15px; background: #111;">&times;</button>
+      <div
+        style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--accent-orange); text-transform: uppercase; margin-bottom: 0.5rem;">
+        Proposal Draft Assistant
+      </div>
+      <h3 style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem;">
+        Submit Chapter Proposal
+      </h3>
+      <form id="drawer-submission-form">
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Author Name
+            *</label>
+          <input type="text" id="drawer-author" required placeholder="e.g. Dr. Jane Doe"
+            style="width: 100%; border: 1px solid #ddd; padding: 0.6rem; border-radius: 4px; font-size: 0.9rem;">
+        </div>
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Institutional
+            Email *</label>
+          <input type="email" id="drawer-email" required placeholder="e.g. author@university.edu"
+            style="width: 100%; border: 1px solid #ddd; padding: 0.6rem; border-radius: 4px; font-size: 0.9rem;">
+        </div>
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Target
+            Topic</label>
+          <input type="text" id="drawer-topic" readonly
+            style="width: 100%; border: 1px solid #ddd; background: #fafafa; padding: 0.6rem; border-radius: 4px; font-size: 0.9rem; font-family: var(--font-mono);">
+        </div>
+        <div style="margin-bottom: 0.85rem;">
+          <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Proposed Chapter
+            Title *</label>
+          <input type="text" id="drawer-title" required
+            placeholder="e.g. Autonomous AI Governance in Critical Infrastructure"
+            style="width: 100%; border: 1px solid #ddd; padding: 0.6rem; border-radius: 4px; font-size: 0.9rem;">
+        </div>
+        <div style="margin-bottom: 1.25rem;">
+          <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.25rem;">Abstract Summary
+            (200-300 words) *</label>
+          <textarea id="drawer-abstract" required rows="3"
+            placeholder="Brief outline of research methodology and contribution..."
+            style="width: 100%; border: 1px solid #ddd; padding: 0.6rem; border-radius: 4px; font-size: 0.85rem;"></textarea>
+        </div>
+        <button type="submit" class="btn-black-submit" style="width: 100%; justify-content: center; margin-bottom: 0;">
+          Compose Directly in Gmail / Webmail ↗
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-notice" id="app-toast"></div>
+
+  <!-- TypeScript Compiled Application Engine -->
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+
+</html>
