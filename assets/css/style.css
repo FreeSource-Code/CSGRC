@@ -486,20 +486,22 @@ body.cursor-hover .custom-cursor-dot {
    Editorial Running Marquee Ribbon
    ========================================================================== */
 .editorial-marquee-wrap {
-  background: #0E1217;
-  color: #FFFFFF;
-  padding: 0.9rem 0;
+  background: #07090E;
+  color: #E2E8F0;
+  padding: 0.8rem 0;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: none;
   position: relative;
   user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 48px, #000 calc(100% - 48px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 48px, #000 calc(100% - 48px), transparent 100%);
 }
 
 .editorial-marquee-track {
   display: flex;
   width: max-content;
-  animation: marqueeRoll 28s linear infinite;
+  animation: marqueeRoll 30s linear infinite;
 }
 
 .editorial-marquee-track:hover {
@@ -509,18 +511,28 @@ body.cursor-hover .custom-cursor-dot {
 .marquee-content-group {
   display: flex;
   align-items: center;
-  gap: 2.5rem;
-  padding-right: 2.5rem;
+  gap: 2.75rem;
+  padding-right: 2.75rem;
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: 0.785rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
+.marquee-content-group span {
+  color: #CBD5E1;
+  transition: color 0.2s ease;
+}
+
+.editorial-marquee-track:hover .marquee-content-group span {
+  color: #FFFFFF;
+}
+
 .marquee-star {
   color: var(--accent-orange);
-  margin-right: 0.35rem;
+  margin-right: 0.4rem;
+  text-shadow: 0 0 10px rgba(222, 90, 30, 0.5);
 }
 
 @keyframes marqueeRoll {
@@ -1502,52 +1514,70 @@ body.cursor-hover .custom-cursor-dot {
   color: var(--accent-orange);
 }
 
-/* Master Minimalist Footer */
+/* Master Minimalist Footer (Integrated with Bottom Marquee) */
 .minimal-footer {
-  background: #FFFFFF;
-  border-top: 1px solid var(--border-light);
-  padding: 2.5rem 0;
+  background: #0B0E14;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2.5rem 0 0;
   font-size: 0.8125rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.footer-tri-split {
+.minimal-footer .footer-tri-split {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 2rem;
 }
 
-.footer-tri-split .foot-brand {
+.minimal-footer .foot-brand {
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 800;
-  color: var(--text-main);
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
 }
 
-.footer-tri-split .foot-center {
+.minimal-footer .foot-brand .logo-orange {
+  color: var(--accent-orange);
+}
+
+.minimal-footer .foot-center {
   font-family: var(--font-mono);
   font-size: 0.785rem;
-  color: var(--text-muted);
-  letter-spacing: 0.06em;
+  color: #94A3B8;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.footer-tri-split .foot-top-btn {
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border-light);
+.minimal-footer .foot-top-btn {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  color: var(--text-main);
-  background: #FFFFFF;
-  transition: var(--transition);
+  font-size: 1.15rem;
+  color: #E2E8F0;
+  background: #141A23;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
 }
 
-.footer-tri-split .foot-top-btn:hover {
+.minimal-footer .foot-top-btn:hover {
   border-color: var(--accent-orange);
   color: var(--accent-orange);
+  background: rgba(222, 90, 30, 0.14);
+  box-shadow: 0 0 16px rgba(222, 90, 30, 0.3);
+  transform: translateY(-2px);
 }
 
 /* Lightbox Modal */
