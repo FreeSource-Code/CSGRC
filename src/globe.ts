@@ -256,9 +256,10 @@ export class InteractiveCyberGlobe {
     const updateSize = () => {
       if (!this.canvas) return;
       const rect = this.canvas.parentElement?.getBoundingClientRect();
-      const w = Math.max(320, rect?.width || 560);
-      const h = Math.max(340, rect?.height || 540);
-      const dpr = window.devicePixelRatio || 1;
+      const availableWidth = rect && rect.width > 0 ? rect.width : (window.innerWidth - 32);
+      const w = Math.max(260, Math.floor(Math.min(availableWidth, window.innerWidth - 20)));
+      const h = rect && rect.height > 0 ? Math.floor(rect.height) : Math.max(280, Math.min(w, 420));
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
       this.canvas.width = Math.floor(w * dpr);
       this.canvas.height = Math.floor(h * dpr);
@@ -273,6 +274,7 @@ export class InteractiveCyberGlobe {
 
     updateSize();
     window.addEventListener('resize', updateSize);
+    window.addEventListener('orientationchange', updateSize);
   }
 
   private setupEvents(): void {

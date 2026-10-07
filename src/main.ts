@@ -209,9 +209,47 @@ function initMobileNav(): void {
   const navLinks = document.getElementById('nav-links');
 
   if (mobileToggle && navLinks) {
-    mobileToggle.addEventListener('click', () => {
-      const isVisible = navLinks.style.display === 'flex';
-      navLinks.style.display = isVisible ? 'none' : 'flex';
+    const closeMenu = () => {
+      navLinks.classList.remove('is-open');
+      mobileToggle.textContent = '☰';
+      mobileToggle.setAttribute('aria-expanded', 'false');
+    };
+
+    const toggleMenu = () => {
+      const isOpen = navLinks.classList.toggle('is-open');
+      mobileToggle.textContent = isOpen ? '✕' : '☰';
+      mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    // Close when tapping any navigation link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        closeMenu();
+      });
+    });
+
+    // Close when clicking outside of navbar
+    document.addEventListener('click', (e) => {
+      if (!navLinks.contains(e.target as Node) && !mobileToggle.contains(e.target as Node)) {
+        closeMenu();
+      }
+    });
+
+    // Close on Escape key press
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
+
+    // Auto-close on screen resize to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && navLinks.classList.contains('is-open')) {
+        closeMenu();
+      }
     });
   }
 
