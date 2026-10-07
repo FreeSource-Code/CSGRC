@@ -3,11 +3,6 @@
   "version": "1.0.0",
   "description": "Bentham Science Scopus-Indexed Cybersecurity GRC Book Chapter CFP Portal",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
     "start": "python -m http.server 3000"
-  },
-  "devDependencies": {
-    "typescript": "^5.4.5"
   }
 }
