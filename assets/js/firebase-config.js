@@ -48,12 +48,13 @@ import {
 // https://console.firebase.google.com/
 // ============================================================================
 export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAjzLlFoX1SShaHUfABa_CI-EyFtDE2oxQ",
+  authDomain: "cybersecuritygrc-35d67.firebaseapp.com",
+  projectId: "cybersecuritygrc-35d67",
+  storageBucket: "cybersecuritygrc-35d67.firebasestorage.app",
+  messagingSenderId: "404049399542",
+  appId: "1:404049399542:web:5408678d16e4a59444e6d7",
+  measurementId: "G-28XLJ60SYD"
 };
 
 // Check if credentials have been replaced with real project keys
