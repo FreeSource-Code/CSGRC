@@ -182,7 +182,7 @@
       }
       currentUser = user;
       document.getElementById('nav-author-name').textContent = user.fullName || user.email;
-      document.getElementById('author-institution-text').textContent = user.institution || 'Affiliation not set';
+      document.getElementById('author-institution-text').textContent = user.institution || (user.email ? user.email : 'Author & Researcher');
       loadAuthorData();
     });
 
@@ -205,7 +205,7 @@
     async function loadAuthorData() {
       if (!currentUser) return;
       try {
-        const submissions = await getAuthorSubmissions(currentUser.uid);
+        const submissions = await getAuthorSubmissions(currentUser.uid, currentUser.email);
         renderSubmissions(submissions);
         updateStats(submissions);
       } catch (err) {

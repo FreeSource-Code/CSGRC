@@ -536,20 +536,49 @@ export async function createChapterSubmission(submissionData) {
 }
 
 /**
- * Fetch all submissions created by a specific author
+ * Fetch all submissions created by a specific author (No composite index required)
  */
-export async function getAuthorSubmissions(authorId) {
+export async function getAuthorSubmissions(authorId, authorEmail = '') {
   if (isConfigured && db) {
-    const q = query(
-      collection(db, 'submissions'),
-      where('authorId', '==', authorId),
-      orderBy('createdAtServer', 'desc')
-    );
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    try {
+      // Query by authorId without server orderBy to avoid Firestore composite index error
+      const q = query(
+        collection(db, 'submissions'),
+        where('authorId', '==', authorId)
+      );
+      const snap = await getDocs(q);
+      const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      // Also check if any submissions exist under author's email
+      if (authorEmail) {
+        try {
+          const qEmail = query(
+            collection(db, 'submissions'),
+            where('authorEmail', '==', authorEmail)
+          );
+          const snapEmail = await getDocs(qEmail);
+          snapEmail.docs.forEach(docSnap => {
+            if (!list.some(item => item.id === docSnap.id)) {
+              list.push({ id: docSnap.id, ...docSnap.data() });
+            }
+          });
+        } catch (_) {}
+      }
+
+      // Sort in-memory: newest first
+      return list.sort((a, b) => {
+        const timeA = a.createdAt ? new Date(a.createdAt).getTime() : (a.createdAtServer?.seconds ? a.createdAtServer.seconds * 1000 : 0);
+        const timeB = b.createdAt ? new Date(b.createdAt).getTime() : (b.createdAtServer?.seconds ? b.createdAtServer.seconds * 1000 : 0);
+        return timeB - timeA;
+      });
+    } catch (err) {
+      console.warn("Firestore getAuthorSubmissions fallback:", err);
+      const localSubs = getLocalData(STORAGE_KEYS.SUBMISSIONS, []);
+      return localSubs.filter(s => s.authorId === authorId || (authorEmail && s.authorEmail === authorEmail));
+    }
   } else {
     const submissions = getLocalData(STORAGE_KEYS.SUBMISSIONS, []);
-    return submissions.filter(s => s.authorId === authorId);
+    return submissions.filter(s => s.authorId === authorId || (authorEmail && s.authorEmail === authorEmail));
   }
 }
 
@@ -558,9 +587,18 @@ export async function getAuthorSubmissions(authorId) {
  */
 export async function getAllSubmissions() {
   if (isConfigured && db) {
-    const q = query(collection(db, 'submissions'), orderBy('createdAtServer', 'desc'));
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    try {
+      const snap = await getDocs(collection(db, 'submissions'));
+      const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      return list.sort((a, b) => {
+        const timeA = a.createdAt ? new Date(a.createdAt).getTime() : (a.createdAtServer?.seconds ? a.createdAtServer.seconds * 1000 : 0);
+        const timeB = b.createdAt ? new Date(b.createdAt).getTime() : (b.createdAtServer?.seconds ? b.createdAtServer.seconds * 1000 : 0);
+        return timeB - timeA;
+      });
+    } catch (err) {
+      console.warn("getAllSubmissions fallback:", err);
+      return getLocalData(STORAGE_KEYS.SUBMISSIONS, []);
+    }
   } else {
     return getLocalData(STORAGE_KEYS.SUBMISSIONS, []);
   }
