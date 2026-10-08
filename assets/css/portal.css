@@ -107,7 +107,7 @@
 /* Left Hero Pane (Big Editorial Typography) */
 .auth-hero-pane {
   background: #ffffff;
-  border-right: 1px solid #EBECEF;
+  border-right: none;
   display: flex;
   align-items: center;
   justify-content: flex-end;
