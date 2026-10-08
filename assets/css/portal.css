@@ -252,36 +252,41 @@
 /* Google Auth Button */
 .btn-google-auth {
   width: 100%;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 0.85rem 1.25rem;
+  gap: 0.65rem;
+  padding: 0.725rem 1.25rem;
   background: #ffffff;
-  color: #1F2937;
-  border: 1.5px solid #E5E7EB;
+  color: #1E293B;
+  border: 1px solid #CBD5E1;
   border-radius: 8px;
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 600;
+  font-size: 0.915rem;
+  letter-spacing: -0.01em;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  margin-bottom: 0.5rem;
 }
 
 .btn-google-auth:hover {
-  background: #F9FAFB;
-  border-color: #D1D5DB;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: #F8FAFC;
+  border-color: #94A3B8;
+  color: #0F172A;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
   transform: translateY(-1px);
 }
 
 .btn-google-auth:active {
   transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .btn-google-auth svg {
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
 }
 
@@ -289,7 +294,7 @@
 .auth-or-divider {
   display: flex;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin: 1.35rem 0 1.15rem 0;
   text-align: center;
 }
 
@@ -297,12 +302,12 @@
 .auth-or-divider::after {
   content: "";
   flex: 1;
-  border-bottom: 1px solid #E5E7EB;
+  border-bottom: 1px solid #E2E8F0;
 }
 
 .auth-or-divider span {
-  padding: 0 1rem;
-  font-size: 0.775rem;
+  padding: 0 0.85rem;
+  font-size: 0.725rem;
   font-weight: 600;
   color: #94A3B8;
   text-transform: uppercase;
