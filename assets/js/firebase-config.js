@@ -188,7 +188,9 @@ export async function registerUser({ email, password, fullName, institution, rol
     };
 
     await setDoc(doc(db, 'users', user.uid), userProfile);
-    return { ...userProfile, uid: user.uid };
+    const full = { ...userProfile, uid: user.uid };
+    setLocalData(STORAGE_KEYS.CURRENT_USER, full);
+    return full;
   } else {
     // Local Simulation
     const users = getLocalData(STORAGE_KEYS.USERS, []);
@@ -219,15 +221,19 @@ export async function loginUser(email, password) {
   if (isConfigured && auth && db) {
     const cred = await signInWithEmailAndPassword(auth, email, password);
     const userDoc = await getDoc(doc(db, 'users', cred.user.uid));
+    let profile;
     if (userDoc.exists()) {
-      return userDoc.data();
+      profile = userDoc.data();
+    } else {
+      profile = {
+        uid: cred.user.uid,
+        email: cred.user.email,
+        fullName: cred.user.displayName || 'User',
+        role: 'author'
+      };
     }
-    return {
-      uid: cred.user.uid,
-      email: cred.user.email,
-      fullName: cred.user.displayName || 'User',
-      role: 'author'
-    };
+    setLocalData(STORAGE_KEYS.CURRENT_USER, profile);
+    return profile;
   } else {
     // Local Simulation
     const users = getLocalData(STORAGE_KEYS.USERS, []);
@@ -272,8 +278,9 @@ export async function loginUser(email, password) {
 async function syncGoogleUser(user) {
   const userDocRef = doc(db, 'users', user.uid);
   const userSnap = await getDoc(userDocRef);
+  let profile;
   if (!userSnap.exists()) {
-    const newProfile = {
+    profile = {
       uid: user.uid,
       email: user.email,
       fullName: user.displayName || 'Google User',
@@ -281,10 +288,12 @@ async function syncGoogleUser(user) {
       role: 'author',
       createdAt: serverTimestamp()
     };
-    await setDoc(userDocRef, newProfile);
-    return newProfile;
+    await setDoc(userDocRef, profile);
+  } else {
+    profile = userSnap.data();
   }
-  return userSnap.data();
+  setLocalData(STORAGE_KEYS.CURRENT_USER, profile);
+  return profile;
 }
 
 /**
@@ -377,42 +386,57 @@ export async function signInWithGoogle() {
  * Logout current user
  */
 export async function logoutUser() {
+  localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
   if (isConfigured && auth) {
-    await signOut(auth);
-  } else {
-    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+    try {
+      await signOut(auth);
+    } catch (_) {}
   }
 }
 
 /**
- * Observe auth state changes
+ * Observe auth state changes (Instant synchronous session restore on refresh)
  */
 export function subscribeToAuth(callback) {
+  // 1. Synchronously trigger callback with cached session so page refresh has ZERO delay or login prompt!
+  const savedUser = getLocalData(STORAGE_KEYS.CURRENT_USER, null);
+  if (savedUser) {
+    callback(savedUser);
+  }
+
+  // 2. Synchronize with Firebase Auth
   if (isConfigured && auth && db) {
     return onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         try {
           const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-          if (userDoc.exists()) {
-            callback(userDoc.data());
-          } else {
-            callback({
-              uid: firebaseUser.uid,
-              email: firebaseUser.email,
-              fullName: firebaseUser.displayName || 'User',
-              role: 'author'
-            });
-          }
+          const fullUser = userDoc.exists()
+            ? userDoc.data()
+            : {
+                uid: firebaseUser.uid,
+                email: firebaseUser.email,
+                fullName: firebaseUser.displayName || 'User',
+                role: 'author'
+              };
+          setLocalData(STORAGE_KEYS.CURRENT_USER, fullUser);
+          callback(fullUser);
         } catch {
-          callback(null);
+          const fallback = getLocalData(STORAGE_KEYS.CURRENT_USER, null);
+          if (fallback) callback(fallback);
         }
       } else {
-        callback(null);
+        // Firebase reported no user. If user explicitly logged out (STORAGE_KEYS.CURRENT_USER is removed),
+        // notify null.
+        const currentLocal = getLocalData(STORAGE_KEYS.CURRENT_USER, null);
+        if (!currentLocal) {
+          callback(null);
+        }
       }
     });
   } else {
-    const user = getLocalData(STORAGE_KEYS.CURRENT_USER, null);
-    callback(user);
+    if (!savedUser) {
+      callback(null);
+    }
     // Listen for storage events (cross-tab sync)
     const handler = (e) => {
       if (e.key === STORAGE_KEYS.CURRENT_USER) {
