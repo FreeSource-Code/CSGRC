@@ -21,7 +21,9 @@ import {
   onAuthStateChanged,
   updateProfile,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import {
   getFirestore,
@@ -265,29 +267,100 @@ export async function loginUser(email, password) {
 }
 
 /**
- * Sign in with Google (OAuth Popup)
+ * Sync Google User into Firestore
+ */
+async function syncGoogleUser(user) {
+  const userDocRef = doc(db, 'users', user.uid);
+  const userSnap = await getDoc(userDocRef);
+  if (!userSnap.exists()) {
+    const newProfile = {
+      uid: user.uid,
+      email: user.email,
+      fullName: user.displayName || 'Google User',
+      institution: '',
+      role: 'author',
+      createdAt: serverTimestamp()
+    };
+    await setDoc(userDocRef, newProfile);
+    return newProfile;
+  }
+  return userSnap.data();
+}
+
+/**
+ * Check if page was loaded after a Google Redirect Sign-In
+ */
+export async function checkRedirectResult() {
+  if (isConfigured && auth && db && window.location.protocol.startsWith('http')) {
+    try {
+      const result = await getRedirectResult(auth);
+      if (result && result.user) {
+        return await syncGoogleUser(result.user);
+      }
+    } catch (err) {
+      console.warn('Google redirect result error:', err);
+    }
+  }
+  return null;
+}
+
+/**
+ * Sign in with Google (OAuth Popup with Redirect & Protocol Fallbacks)
  */
 export async function signInWithGoogle() {
+  // If running directly as local file (file:/// protocol):
+  // Browsers strictly block Google OAuth popups and cross-origin tokens on file:// origins.
+  if (window.location.protocol === 'file:') {
+    console.info("ℹ️ Running via file:// scheme. Browsers block Google OAuth popups on local files. Logging in via seamless test researcher profile.");
+    const mockGoogleUser = {
+      uid: 'google_local_' + Date.now(),
+      email: 'researcher.google@gmail.com',
+      fullName: 'Google Researcher',
+      institution: 'Bentham Science Contributor',
+      role: 'author'
+    };
+    setLocalData(STORAGE_KEYS.CURRENT_USER, mockGoogleUser);
+    return mockGoogleUser;
+  }
+
   if (isConfigured && auth && db) {
     const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+    provider.setCustomParameters({ prompt: 'select_account' });
 
-    const userDocRef = doc(db, 'users', user.uid);
-    const userSnap = await getDoc(userDocRef);
-    if (!userSnap.exists()) {
-      const newProfile = {
-        uid: user.uid,
-        email: user.email,
-        fullName: user.displayName || 'Google User',
-        institution: '',
-        role: 'author',
-        createdAt: serverTimestamp()
-      };
-      await setDoc(userDocRef, newProfile);
-      return newProfile;
+    try {
+      const result = await signInWithPopup(auth, provider);
+      return await syncGoogleUser(result.user);
+    } catch (err) {
+      console.warn("signInWithPopup failed:", err.code, err.message);
+
+      // Handle popup-blocked
+      if (err.code === 'auth/popup-blocked') {
+        // If on http/https, try signInWithRedirect as direct seamless fallback
+        if (window.location.protocol.startsWith('http')) {
+          try {
+            await signInWithRedirect(auth, provider);
+            return null;
+          } catch (redirErr) {
+            console.error("signInWithRedirect failed:", redirErr);
+          }
+        }
+        throw new Error('Google Sign-In popup was blocked by your browser. Please click the pop-up blocked icon in your browser address bar (top right) to allow pop-ups, or run the website on a local web server (http://localhost).');
+      }
+
+      if (err.code === 'auth/popup-closed-by-user') {
+        throw new Error('Google sign-in window was closed before finishing. Please try again.');
+      }
+
+      if (err.code === 'auth/unauthorized-domain') {
+        throw new Error(`Domain (${window.location.hostname || 'current'}) is not authorized in Firebase. Add it in Firebase Console -> Authentication -> Settings -> Authorized domains.`);
+      }
+
+      if (err.code === 'auth/operation-not-allowed') {
+        throw new Error('Google Sign-In provider is disabled in Firebase Console. Please enable it in Firebase Console -> Authentication -> Sign-in method.');
+      }
+
+      throw new Error(err.message || 'Google sign-in failed. Please try again.');
     }
-    return userSnap.data();
   } else {
     // Local simulation fallback
     const mockGoogleUser = {
