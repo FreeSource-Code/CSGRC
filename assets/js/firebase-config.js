@@ -19,7 +19,9 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
-  updateProfile
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithPopup
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 import {
   getFirestore,
@@ -259,6 +261,44 @@ export async function loginUser(email, password) {
     const { password: _, ...safeUser } = user;
     setLocalData(STORAGE_KEYS.CURRENT_USER, safeUser);
     return safeUser;
+  }
+}
+
+/**
+ * Sign in with Google (OAuth Popup)
+ */
+export async function signInWithGoogle() {
+  if (isConfigured && auth && db) {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    const userDocRef = doc(db, 'users', user.uid);
+    const userSnap = await getDoc(userDocRef);
+    if (!userSnap.exists()) {
+      const newProfile = {
+        uid: user.uid,
+        email: user.email,
+        fullName: user.displayName || 'Google User',
+        institution: '',
+        role: 'author',
+        createdAt: serverTimestamp()
+      };
+      await setDoc(userDocRef, newProfile);
+      return newProfile;
+    }
+    return userSnap.data();
+  } else {
+    // Local simulation fallback
+    const mockGoogleUser = {
+      uid: 'google_user_' + Date.now(),
+      email: 'researcher@gmail.com',
+      fullName: 'Google Researcher',
+      institution: 'Academic Institution',
+      role: 'author'
+    };
+    setLocalData(STORAGE_KEYS.CURRENT_USER, mockGoogleUser);
+    return mockGoogleUser;
   }
 }
 

@@ -249,6 +249,66 @@
   color: #0F172A;
 }
 
+/* Google Auth Button */
+.btn-google-auth {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  background: #ffffff;
+  color: #1F2937;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  margin-bottom: 1.5rem;
+}
+
+.btn-google-auth:hover {
+  background: #F9FAFB;
+  border-color: #D1D5DB;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.btn-google-auth:active {
+  transform: translateY(0);
+}
+
+.btn-google-auth svg {
+  flex-shrink: 0;
+}
+
+/* Auth Or Divider */
+.auth-or-divider {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.auth-or-divider::before,
+.auth-or-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.auth-or-divider span {
+  padding: 0 1rem;
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
 /* Pro Input Groups with Icons */
 .form-group-pro {
   margin-bottom: 1.25rem;
