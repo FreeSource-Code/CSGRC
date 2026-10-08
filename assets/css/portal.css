@@ -187,120 +187,232 @@
   box-sizing: border-box;
 }
 
+/* Pro-Level Form Card & Components */
 .auth-form-card-wide {
-  max-width: 460px;
+  max-width: 480px;
   width: 100%;
   background: #ffffff;
-  border: 1px solid #E5E7EB;
-  border-radius: 12px;
-  padding: 3rem 2.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 16px;
+  padding: 3.25rem 2.75rem;
+  box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
+  position: relative;
 }
 
-@media (max-width: 1050px) {
-  .auth-split-grid {
-    grid-template-columns: 1fr;
-  }
-  .auth-hero-pane {
-    border-right: none;
-    border-bottom: 1px solid #EBECEF;
-    justify-content: center;
-    padding: 3.5rem 2rem;
-  }
-  .auth-hero-pane .hero-title {
-    font-size: 2.85rem;
-  }
-  .auth-form-pane {
-    justify-content: center;
-    padding: 3.5rem 1.5rem;
-  }
-}
-
-/* Modern Tabs */
-.auth-tabs {
-  display: flex;
-  border-bottom: 2px solid #E5E7EB;
-  margin-bottom: 2rem;
-  gap: 1rem;
-}
-
-.auth-tab-btn {
-  padding: 0.75rem 0.5rem;
-  background: none;
-  border: none;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -2px;
-  font-family: var(--font-display);
+.auth-card-top-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   font-weight: 700;
-  font-size: 1.05rem;
-  color: #6B7280;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.auth-tab-btn:hover {
-  color: #11141A;
-}
-
-.auth-tab-btn.active {
   color: var(--accent-orange);
-  border-bottom-color: var(--accent-orange);
+  background: #FDF3ED;
+  padding: 0.3rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid rgba(222, 90, 30, 0.18);
+  margin-bottom: 0.85rem;
 }
 
-.form-group-portal {
-  margin-bottom: 1.35rem;
+.auth-card-top-pill .live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
-.form-group-portal label {
+.auth-card-heading {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #11141A;
+  margin-bottom: 0.35rem;
+  letter-spacing: -0.02em;
+}
+
+.auth-card-subtext {
+  font-size: 0.875rem;
+  color: #64748B;
+  margin-bottom: 1.75rem;
+  line-height: 1.5;
+}
+
+/* iOS-Style Pro Segmented Control */
+.auth-segmented-control {
+  display: flex;
+  background: #F1F5F9;
+  padding: 4px;
+  border-radius: 10px;
+  margin-bottom: 1.75rem;
+  position: relative;
+}
+
+.auth-seg-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.75rem;
+  border: none;
+  background: transparent;
+  color: #64748B;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-seg-btn.active {
+  background: #ffffff;
+  color: #11141A;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.auth-seg-btn:not(.active):hover {
+  color: #0F172A;
+}
+
+/* Pro Input Groups with Icons */
+.form-group-pro {
+  margin-bottom: 1.25rem;
+}
+
+.form-group-pro label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.825rem;
   font-weight: 600;
-  color: #374151;
+  color: #334155;
   margin-bottom: 0.4rem;
 }
 
-.form-control-portal {
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-leading-icon {
+  position: absolute;
+  left: 0.95rem;
+  color: #94A3B8;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+.form-control-pro {
   width: 100%;
-  padding: 0.8rem 1rem;
-  border: 1.5px solid #D1D5DB;
-  border-radius: 6px;
-  font-size: 0.95rem;
+  padding: 0.75rem 1rem 0.75rem 2.65rem;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  font-size: 0.925rem;
   font-family: var(--font-body);
-  transition: all 0.2s;
+  color: #0F172A;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.form-control-pro:focus {
+  outline: none;
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 4px rgba(222, 90, 30, 0.12);
   background: #ffffff;
 }
 
-.form-control-portal:focus {
-  outline: none;
-  border-color: var(--accent-orange);
-  box-shadow: 0 0 0 3px rgba(222, 90, 30, 0.12);
+.form-control-pro:focus ~ .input-leading-icon,
+.input-icon-wrapper:focus-within .input-leading-icon {
+  color: var(--accent-orange);
 }
 
-.btn-portal-submit {
+.pwd-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.pwd-toggle-btn:hover {
+  color: #0F172A;
+}
+
+/* Pro Submit Button */
+.btn-portal-pro-submit {
   width: 100%;
-  padding: 0.9rem 1.5rem;
+  padding: 0.85rem 1.5rem;
   background: #11141A;
   color: #ffffff;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.975rem;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 14px rgba(17, 20, 26, 0.15);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.btn-portal-submit:hover {
-  background: var(--accent-orange);
+.btn-portal-pro-submit .btn-arrow {
+  transition: transform 0.2s ease;
 }
 
-.btn-portal-submit:hover {
+.btn-portal-pro-submit:hover {
   background: var(--accent-orange);
+  box-shadow: 0 6px 20px rgba(222, 90, 30, 0.28);
+  transform: translateY(-1px);
+}
+
+.btn-portal-pro-submit:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.btn-portal-pro-submit:active {
+  transform: translateY(0);
+}
+
+/* Card Security Trust Footer */
+.auth-trust-footer {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #F1F5F9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+/* Form Transition Animation */
+.auth-form-animated {
+  animation: authFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes authFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .auth-alert {
