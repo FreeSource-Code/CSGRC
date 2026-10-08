@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "site": "cybergrc",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "*.log",
+      "README.md",
+      "package.json",
+      "package-lock.json"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
