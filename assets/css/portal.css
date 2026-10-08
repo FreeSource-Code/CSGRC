@@ -98,9 +98,10 @@
 
 .auth-split-grid {
   display: grid;
-  grid-template-columns: 1.15fr 0.95fr;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
   min-height: 100%;
+  background: #ffffff;
 }
 
 /* Left Hero Pane (Big Editorial Typography) */
@@ -110,12 +111,12 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 4.5rem 5rem 4.5rem 6vw;
+  padding: 4rem 3.5rem 4rem 5vw;
   box-sizing: border-box;
 }
 
 .auth-hero-inner {
-  max-width: 600px;
+  max-width: 580px;
   width: 100%;
 }
 
@@ -177,13 +178,13 @@
   color: var(--border-medium);
 }
 
-/* Right Form Pane (Full Height, Generous Form Box) */
+/* Right Form Pane (Clean, Seamless White, No Awkward Gap) */
 .auth-form-pane {
-  background: #F9FAFB;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 4.5rem 6vw 4.5rem 5rem;
+  padding: 4rem 5vw 4rem 3.5rem;
   box-sizing: border-box;
 }
 
@@ -192,34 +193,11 @@
   max-width: 480px;
   width: 100%;
   background: #ffffff;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 16px;
-  padding: 3.25rem 2.75rem;
-  box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(0, 0, 0, 0.02);
+  border: 1px solid #EBECEF;
+  border-radius: 14px;
+  padding: 2.75rem 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   position: relative;
-}
-
-.auth-card-top-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--accent-orange);
-  background: #FDF3ED;
-  padding: 0.3rem 0.65rem;
-  border-radius: 20px;
-  border: 1px solid rgba(222, 90, 30, 0.18);
-  margin-bottom: 0.85rem;
-}
-
-.auth-card-top-pill .live-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #10B981;
-  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
 }
 
 .auth-card-heading {
