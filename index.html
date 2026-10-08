@@ -30,8 +30,10 @@
           <a href="#about" class="nav-link">ABOUT</a>
           <a href="#chapters" class="nav-link">CHAPTERS</a>
           <a href="#editors" class="nav-link">EDITORS</a>
-          <a href="auth.html" class="nav-link" style="color: var(--accent-orange); font-weight: 700;">LOGIN / SIGN UP</a>
-          <a href="#guidelines" class="nav-link nav-link-cta">SUBMIT ↗</a>
+          <span id="nav-auth-slot">
+            <a href="auth.html" class="nav-link" id="nav-auth-link" style="color: var(--accent-orange); font-weight: 700;">LOGIN / SIGN UP</a>
+          </span>
+          <a href="#guidelines" class="nav-link nav-link-cta" id="nav-submit-cta">SUBMIT ↗</a>
         </div>
 
         <button class="mobile-toggle" id="mobile-nav-toggle" aria-label="Toggle Menu">☰</button>
@@ -737,6 +739,64 @@
 
   <!-- TypeScript Compiled Application Engine -->
   <script type="module" src="assets/js/main.js"></script>
+
+  <!-- Navbar Live Auth State Listener -->
+  <script type="module">
+    import { subscribeToAuth, logoutUser } from './assets/js/firebase-config.js';
+
+    const authSlot = document.getElementById('nav-auth-slot');
+    const submitCta = document.getElementById('nav-submit-cta');
+
+    subscribeToAuth((user) => {
+      if (user) {
+        // User is logged in: Hide LOGIN / SIGN UP, display User Name + Author Portal link
+        const displayName = user.fullName || user.email || 'Researcher';
+        const portalUrl = user.role === 'admin' ? 'admin-dashboard.html' : 'author-dashboard.html';
+        const portalLabel = user.role === 'admin' ? 'ADMIN PORTAL ↗' : 'AUTHOR PORTAL ↗';
+
+        if (authSlot) {
+          authSlot.innerHTML = `
+            <div class="nav-user-container">
+              <a href="${portalUrl}" class="nav-user-pill" title="Open Your Dashboard">
+                <span class="nav-user-dot"></span>
+                <span>${displayName}</span>
+              </a>
+              <a href="${portalUrl}" class="nav-portal-btn">
+                ${portalLabel}
+              </a>
+              <button type="button" class="nav-logout-btn" id="nav-btn-logout" title="Sign Out">
+                Sign Out
+              </button>
+            </div>
+          `;
+
+          // Attach logout event
+          const btnLogout = document.getElementById('nav-btn-logout');
+          if (btnLogout) {
+            btnLogout.addEventListener('click', async () => {
+              await logoutUser();
+              window.location.reload();
+            });
+          }
+        }
+
+        // When logged in, SUBMIT in navbar takes author to their dashboard directly
+        if (submitCta) {
+          submitCta.href = portalUrl;
+        }
+      } else {
+        // Logged out state: Restore LOGIN / SIGN UP
+        if (authSlot) {
+          authSlot.innerHTML = `
+            <a href="auth.html" class="nav-link" id="nav-auth-link" style="color: var(--accent-orange); font-weight: 700;">LOGIN / SIGN UP</a>
+          `;
+        }
+        if (submitCta) {
+          submitCta.href = '#guidelines';
+        }
+      }
+    });
+  </script>
 </body>
 
 </html>

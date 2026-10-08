@@ -51,7 +51,9 @@
         </ul>
 
         <div class="nav-actions">
-          <a href="auth.html" class="btn-nav-cta" style="background: var(--accent-orange); color: #fff;">LOGIN / SIGN UP</a>
+          <span id="nav-auth-slot">
+            <a href="auth.html" class="btn-nav-cta" style="background: var(--accent-orange); color: #fff;">LOGIN / SIGN UP</a>
+          </span>
           <button class="mobile-toggle" id="mobile-nav-toggle">☰</button>
         </div>
       </nav>
@@ -236,6 +238,52 @@
       const selectEl = document.getElementById('form-topic');
       if (selectEl) selectEl.value = topicParam;
     }
+  </script>
+
+  <!-- Navbar Live Auth State Listener -->
+  <script type="module">
+    import { subscribeToAuth, logoutUser } from './assets/js/firebase-config.js';
+
+    const authSlot = document.getElementById('nav-auth-slot');
+
+    subscribeToAuth((user) => {
+      if (user) {
+        const displayName = user.fullName || user.email || 'Researcher';
+        const portalUrl = user.role === 'admin' ? 'admin-dashboard.html' : 'author-dashboard.html';
+        const portalLabel = user.role === 'admin' ? 'ADMIN PORTAL ↗' : 'AUTHOR PORTAL ↗';
+
+        if (authSlot) {
+          authSlot.innerHTML = `
+            <div class="nav-user-container">
+              <a href="${portalUrl}" class="nav-user-pill" title="Open Your Dashboard">
+                <span class="nav-user-dot"></span>
+                <span>${displayName}</span>
+              </a>
+              <a href="${portalUrl}" class="nav-portal-btn">
+                ${portalLabel}
+              </a>
+              <button type="button" class="nav-logout-btn" id="nav-btn-logout" title="Sign Out">
+                Sign Out
+              </button>
+            </div>
+          `;
+
+          const btnLogout = document.getElementById('nav-btn-logout');
+          if (btnLogout) {
+            btnLogout.addEventListener('click', async () => {
+              await logoutUser();
+              window.location.reload();
+            });
+          }
+        }
+      } else {
+        if (authSlot) {
+          authSlot.innerHTML = `
+            <a href="auth.html" class="btn-nav-cta" style="background: var(--accent-orange); color: #fff;">LOGIN / SIGN UP</a>
+          `;
+        }
+      }
+    });
   </script>
 </body>
 </html>

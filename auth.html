@@ -289,12 +289,8 @@
     }
 
     function redirectUser(user) {
-      // If user has role admin (set in Firebase Firestore), route to admin-dashboard
-      if (user && user.role === 'admin') {
-        window.location.href = 'admin-dashboard.html';
-      } else {
-        window.location.href = 'author-dashboard.html';
-      }
+      // User requested: redirect to home page (index.html) after login
+      window.location.href = 'index.html';
     }
 
     // Handle Login
