@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection (Author & Admin profiles)
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+    // Submissions collection (Chapter proposals & manuscripts)
+    match /submissions/{subId} {
+      allow read, write: if true;
+    }
+  }
+}
