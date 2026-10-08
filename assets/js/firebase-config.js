@@ -301,6 +301,28 @@ export function isAdminEmail(email) {
 }
 
 /**
+ * Format and sanitize user display name from Google or email
+ */
+export function formatDisplayName(displayName, email) {
+  if (displayName && typeof displayName === 'string' && displayName.trim()) {
+    const clean = displayName.trim();
+    if (clean.toLowerCase() !== 'google researcher' && clean.toLowerCase() !== 'google user') {
+      return clean;
+    }
+  }
+  if (email && typeof email === 'string') {
+    const username = email.split('@')[0];
+    return username
+      .replace(/[._-]+/g, ' ')
+      .split(' ')
+      .filter(Boolean)
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ') || 'Author';
+  }
+  return 'Author';
+}
+
+/**
  * Sync Google User into Firestore (Ensures strict role separation)
  */
 async function syncGoogleUser(user) {
@@ -308,13 +330,14 @@ async function syncGoogleUser(user) {
   const userSnap = await getDoc(userDocRef);
   const isEditorialAdmin = isAdminEmail(user.email);
   const assignedRole = isEditorialAdmin ? 'admin' : 'user';
+  const realName = formatDisplayName(user.displayName, user.email);
 
   let profile;
   if (!userSnap.exists()) {
     profile = {
       uid: user.uid,
       email: user.email,
-      fullName: user.displayName || 'Google User',
+      fullName: realName,
       institution: isEditorialAdmin ? 'Bentham Science Editorial Board' : '',
       role: assignedRole,
       createdAt: serverTimestamp()
@@ -322,10 +345,14 @@ async function syncGoogleUser(user) {
     await setDoc(userDocRef, profile);
   } else {
     profile = userSnap.data();
-    // Enforce role strictly based on the 6 admin emails whitelist
+    // Enforce real name and role strictly based on Google account & admin whitelist
+    profile.fullName = realName;
     profile.role = assignedRole;
     try {
-      await updateDoc(userDocRef, { role: assignedRole });
+      await updateDoc(userDocRef, {
+        fullName: realName,
+        role: assignedRole
+      });
     } catch (_) {}
   }
   setLocalData(STORAGE_KEYS.CURRENT_USER, profile);
@@ -354,18 +381,29 @@ export async function checkRedirectResult() {
  */
 export async function signInWithGoogle() {
   // If running directly as local file (file:/// protocol):
-  // Browsers strictly block Google OAuth popups and cross-origin tokens on file:// origins.
+  // Browsers strictly block Google OAuth popups on file:// origins.
   if (window.location.protocol === 'file:') {
-    console.info("ℹ️ Running via file:// scheme. Browsers block Google OAuth popups on local files. Logging in via seamless test researcher profile.");
-    const mockGoogleUser = {
-      uid: 'google_local_' + Date.now(),
-      email: 'researcher.google@gmail.com',
-      fullName: 'Google Researcher',
-      institution: 'Bentham Science Contributor',
-      role: 'author'
+    const enteredEmail = prompt(
+      "Testing via file:// protocol. Google OAuth popup requires http://localhost or live website.\n\nPlease enter your email address to continue:",
+      "waliaishanipshita@gmail.com"
+    );
+    if (!enteredEmail || !enteredEmail.trim()) {
+      throw new Error("Sign-in cancelled. Please run on http://localhost or live hosting for Google OAuth.");
+    }
+    const cleanEmail = enteredEmail.trim();
+    const defaultName = formatDisplayName(null, cleanEmail);
+    const enteredName = prompt("Enter your Name:", defaultName) || defaultName;
+    const isEditorialAdmin = isAdminEmail(cleanEmail);
+    const mockUser = {
+      uid: 'local_' + Date.now(),
+      email: cleanEmail,
+      fullName: enteredName.trim(),
+      institution: isEditorialAdmin ? 'Bentham Science Editorial Board' : 'Author',
+      role: isEditorialAdmin ? 'admin' : 'user',
+      authProvider: 'google.com'
     };
-    setLocalData(STORAGE_KEYS.CURRENT_USER, mockGoogleUser);
-    return mockGoogleUser;
+    setLocalData(STORAGE_KEYS.CURRENT_USER, mockUser);
+    return mockUser;
   }
 
   if (isConfigured && auth && db) {
@@ -376,45 +414,29 @@ export async function signInWithGoogle() {
       const result = await signInWithPopup(auth, provider);
       return await syncGoogleUser(result.user);
     } catch (err) {
-      console.warn("Live Google OAuth encountered an environment restriction:", err.code, err.message);
+      console.warn("Live Google OAuth popup error:", err.code, err.message);
 
-      // If user deliberately closed the popup window
-      if (err.code === 'auth/popup-closed-by-user') {
-        throw new Error('Sign-in was cancelled. Please click again to continue with Google.');
+      // User closed popup
+      if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+        throw new Error('Google sign-in popup was closed before completion.');
       }
 
-      // If popup was blocked by browser or domain not authorized, activate seamless Google session
-      console.info("⚡ Activating seamless Google authentication session for local environment.");
-      const fallbackGoogleUser = {
-        uid: 'google_' + Date.now(),
-        email: 'researcher.google@gmail.com',
-        fullName: 'Google Researcher',
-        institution: 'Cybersecurity Research Institute',
-        role: 'author',
-        authProvider: 'google.com'
-      };
-      setLocalData(STORAGE_KEYS.CURRENT_USER, fallbackGoogleUser);
-
-      try {
-        await setDoc(doc(db, 'users', fallbackGoogleUser.uid), fallbackGoogleUser, { merge: true });
-      } catch (dbErr) {
-        console.warn("Firestore user sync skipped:", dbErr);
+      // Popup blocked by browser: fallback to redirect sign-in
+      if (err.code === 'auth/popup-blocked') {
+        console.info("Popup blocked by browser. Attempting redirect sign-in...");
+        await signInWithRedirect(auth, provider);
+        return null;
       }
 
-      return fallbackGoogleUser;
+      // Unauthorized domain error with clear guidance
+      if (err.code === 'auth/unauthorized-domain') {
+        throw new Error(`Current domain (${window.location.hostname}) is not authorized in Firebase. Please add '${window.location.hostname}' to Firebase Authentication -> Settings -> Authorized Domains.`);
+      }
+
+      throw new Error(err.message || 'Google sign-in failed. Please try again.');
     }
   } else {
-    // Local simulation fallback
-    const mockGoogleUser = {
-      uid: 'google_user_' + Date.now(),
-      email: 'researcher@gmail.com',
-      fullName: 'Google Researcher',
-      institution: 'Academic Institution',
-      role: 'author',
-      authProvider: 'google.com'
-    };
-    setLocalData(STORAGE_KEYS.CURRENT_USER, mockGoogleUser);
-    return mockGoogleUser;
+    throw new Error('Firebase Authentication is not configured.');
   }
 }
 
@@ -434,8 +456,19 @@ export async function logoutUser() {
  * Observe auth state changes (Instant synchronous session restore on refresh)
  */
 export function subscribeToAuth(callback) {
-  // 1. Synchronously trigger callback with cached session so page refresh has ZERO delay or login prompt!
+  // 1. Purge any stale dummy mock users ("Google Researcher", "researcher.google@gmail.com")
   let savedUser = getLocalData(STORAGE_KEYS.CURRENT_USER, null);
+  if (savedUser && (
+    !savedUser.fullName ||
+    savedUser.fullName.toLowerCase() === 'google researcher' ||
+    savedUser.fullName.toLowerCase() === 'google user' ||
+    savedUser.email === 'researcher.google@gmail.com' ||
+    savedUser.email === 'researcher@gmail.com'
+  )) {
+    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
+    savedUser = null;
+  }
+
   if (savedUser) {
     savedUser.role = isAdminEmail(savedUser.email) ? 'admin' : 'user';
     callback(savedUser);
@@ -448,15 +481,22 @@ export function subscribeToAuth(callback) {
         try {
           const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
           const isEditorialAdmin = isAdminEmail(firebaseUser.email);
+          const realName = formatDisplayName(firebaseUser.displayName, firebaseUser.email);
           let fullUser = userDoc.exists()
             ? userDoc.data()
             : {
                 uid: firebaseUser.uid,
                 email: firebaseUser.email,
-                fullName: firebaseUser.displayName || 'User',
+                fullName: realName,
                 role: isEditorialAdmin ? 'admin' : 'user'
               };
+
+          // Always enforce current real name and role
+          if (!fullUser.fullName || fullUser.fullName.toLowerCase() === 'google researcher' || fullUser.fullName.toLowerCase() === 'google user' || firebaseUser.displayName) {
+            fullUser.fullName = realName;
+          }
           fullUser.role = isEditorialAdmin ? 'admin' : 'user';
+
           setLocalData(STORAGE_KEYS.CURRENT_USER, fullUser);
           callback(fullUser);
         } catch {
