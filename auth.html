@@ -27,88 +27,92 @@
     </div>
   </header>
 
-  <!-- Split Screen Auth Section -->
+  <!-- Full-Screen Split Auth Section -->
   <main class="auth-wrapper">
-    <div class="auth-split-container">
+    <div class="auth-split-grid">
       
-      <!-- Left Side: Editorial Typography (Exact Match with Screenshot) -->
-      <div class="auth-hero-side">
-        <div class="hero-meta-pill">
-          <span class="square-dot"></span>
-          <span>CALL FOR BOOK CHAPTERS &bull; 2026</span>
-        </div>
+      <!-- Left 50%: Editorial Typography (Exact Match with Screenshot, Big & Spacious) -->
+      <div class="auth-hero-pane">
+        <div class="auth-hero-inner">
+          <div class="hero-meta-pill">
+            <span class="square-dot"></span>
+            <span>CALL FOR BOOK CHAPTERS &bull; 2026</span>
+          </div>
 
-        <h1 class="hero-title">
-          Cybersecurity<br>
-          Governance, Risk<br>
-          <span class="text-accent">& Compliance</span>
-        </h1>
+          <h1 class="hero-title">
+            Cybersecurity<br>
+            Governance, Risk<br>
+            <span class="text-accent">& Compliance</span>
+          </h1>
 
-        <div class="hero-subtitle">
-          In the Age of AI and Global Regulation
-        </div>
+          <div class="hero-subtitle">
+            In the Age of AI and Global Regulation
+          </div>
 
-        <p class="hero-desc">
-          A call to researchers, academicians, and industry experts shaping a safer digital tomorrow.
-        </p>
+          <p class="hero-desc">
+            A call to researchers, academicians, and industry experts shaping a safer digital tomorrow.
+          </p>
 
-        <div class="hero-footer-bar">
-          <span>PUBLISHED BY <strong>BENTHAM SCIENCE</strong></span>
-          <span class="divider">|</span>
-          <span>Scopus Indexed</span>
+          <div class="hero-footer-bar">
+            <span>PUBLISHED BY <strong>BENTHAM SCIENCE</strong></span>
+            <span class="divider">|</span>
+            <span>Scopus Indexed</span>
+          </div>
         </div>
       </div>
 
-      <!-- Right Side: Login & Sign Up Forms -->
-      <div class="auth-form-side">
-        <!-- Tabs -->
-        <div class="auth-tabs">
-          <button class="auth-tab-btn active" id="tab-login-btn">Sign In</button>
-          <button class="auth-tab-btn" id="tab-register-btn">Sign Up</button>
+      <!-- Right 50%: Login & Sign Up Forms (Large, Centered, Clean Box) -->
+      <div class="auth-form-pane">
+        <div class="auth-form-card-wide">
+          <!-- Tabs -->
+          <div class="auth-tabs">
+            <button class="auth-tab-btn active" id="tab-login-btn">Sign In</button>
+            <button class="auth-tab-btn" id="tab-register-btn">Sign Up</button>
+          </div>
+
+          <!-- Alert Notification -->
+          <div class="auth-alert" id="auth-alert"></div>
+
+          <!-- Form: Sign In -->
+          <form id="form-login">
+            <div class="form-group-portal">
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" class="form-control-portal" required placeholder="">
+            </div>
+            <div class="form-group-portal">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" class="form-control-portal" required placeholder="">
+            </div>
+
+            <button type="submit" class="btn-portal-submit" id="login-submit-btn">
+              Sign In &rarr;
+            </button>
+          </form>
+
+          <!-- Form: Sign Up (Clean, No extra placeholder text, No role dropdown) -->
+          <form id="form-register" style="display: none;">
+            <div class="form-group-portal">
+              <label for="reg-name">Full Name</label>
+              <input type="text" id="reg-name" class="form-control-portal" required placeholder="">
+            </div>
+            <div class="form-group-portal">
+              <label for="reg-email">Email</label>
+              <input type="email" id="reg-email" class="form-control-portal" required placeholder="">
+            </div>
+            <div class="form-group-portal">
+              <label for="reg-institution">Institution / University</label>
+              <input type="text" id="reg-institution" class="form-control-portal" required placeholder="">
+            </div>
+            <div class="form-group-portal">
+              <label for="reg-password">Password</label>
+              <input type="password" id="reg-password" class="form-control-portal" required minlength="6" placeholder="">
+            </div>
+
+            <button type="submit" class="btn-portal-submit" id="reg-submit-btn">
+              Sign Up &rarr;
+            </button>
+          </form>
         </div>
-
-        <!-- Alert Notification -->
-        <div class="auth-alert" id="auth-alert"></div>
-
-        <!-- Form: Sign In -->
-        <form id="form-login">
-          <div class="form-group-portal">
-            <label for="login-email">Email</label>
-            <input type="email" id="login-email" class="form-control-portal" required placeholder="">
-          </div>
-          <div class="form-group-portal">
-            <label for="login-password">Password</label>
-            <input type="password" id="login-password" class="form-control-portal" required placeholder="">
-          </div>
-
-          <button type="submit" class="btn-portal-submit" id="login-submit-btn" style="margin-top: 0.5rem;">
-            Sign In &rarr;
-          </button>
-        </form>
-
-        <!-- Form: Sign Up (Clean, No extra placeholder text, No role dropdown) -->
-        <form id="form-register" style="display: none;">
-          <div class="form-group-portal">
-            <label for="reg-name">Full Name</label>
-            <input type="text" id="reg-name" class="form-control-portal" required placeholder="">
-          </div>
-          <div class="form-group-portal">
-            <label for="reg-email">Email</label>
-            <input type="email" id="reg-email" class="form-control-portal" required placeholder="">
-          </div>
-          <div class="form-group-portal">
-            <label for="reg-institution">Institution / University</label>
-            <input type="text" id="reg-institution" class="form-control-portal" required placeholder="">
-          </div>
-          <div class="form-group-portal">
-            <label for="reg-password">Password</label>
-            <input type="password" id="reg-password" class="form-control-portal" required minlength="6" placeholder="">
-          </div>
-
-          <button type="submit" class="btn-portal-submit" id="reg-submit-btn" style="margin-top: 0.5rem;">
-            Sign Up &rarr;
-          </button>
-        </form>
       </div>
 
     </div>

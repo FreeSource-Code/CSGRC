@@ -86,106 +86,160 @@
   border-color: #11141A;
 }
 
-/* Auth Split Layout */
+/* Full-Screen Split Auth Layout */
 .auth-wrapper {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3.5rem 1.5rem;
-  background: #F9FAFB;
-}
-
-.auth-split-container {
-  display: grid;
-  grid-template-columns: 1.18fr 0.95fr;
   width: 100%;
-  max-width: 1100px;
+  min-height: calc(100vh - 68px);
   background: #ffffff;
-  border: 1px solid var(--border-light);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.05);
+  padding: 0;
 }
 
-.auth-hero-side {
+.auth-split-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  width: 100%;
+  min-height: 100%;
+}
+
+/* Left Hero Pane (Big Editorial Typography) */
+.auth-hero-pane {
   background: #ffffff;
-  padding: 3.5rem 3.25rem;
+  border-right: 1px solid #EBECEF;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-right: 1px solid var(--border-light);
+  align-items: center;
+  justify-content: flex-end;
+  padding: 4.5rem 5rem 4.5rem 6vw;
+  box-sizing: border-box;
 }
 
-.auth-hero-side .hero-meta-pill {
+.auth-hero-inner {
+  max-width: 600px;
+  width: 100%;
+}
+
+.auth-hero-pane .hero-meta-pill {
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+}
+
+.auth-hero-pane .hero-title {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--text-main);
   margin-bottom: 1.5rem;
 }
 
-.auth-hero-side .hero-title {
-  font-size: 3.25rem;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
+.auth-hero-pane .hero-title .text-accent {
+  color: var(--accent-orange);
+}
+
+.auth-hero-pane .hero-subtitle {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #1F2530;
+  line-height: 1.35;
   margin-bottom: 1.25rem;
 }
 
-.auth-hero-side .hero-subtitle {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
+.auth-hero-pane .hero-desc {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin-bottom: 3rem;
+  max-width: 540px;
 }
 
-.auth-hero-side .hero-desc {
-  font-size: 0.95rem;
-  margin-bottom: 2rem;
-  max-width: 480px;
-}
-
-.auth-hero-side .hero-footer-bar {
-  padding-top: 1.5rem;
-}
-
-.auth-form-side {
-  padding: 3.5rem 3rem;
+.auth-hero-pane .hero-footer-bar {
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-light);
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: #ffffff;
+  align-items: center;
+  gap: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.785rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-@media (max-width: 960px) {
-  .auth-split-container {
+.auth-hero-pane .hero-footer-bar strong {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.auth-hero-pane .hero-footer-bar .divider {
+  color: var(--border-medium);
+}
+
+/* Right Form Pane (Full Height, Generous Form Box) */
+.auth-form-pane {
+  background: #F9FAFB;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 4.5rem 6vw 4.5rem 5rem;
+  box-sizing: border-box;
+}
+
+.auth-form-card-wide {
+  max-width: 460px;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 1050px) {
+  .auth-split-grid {
     grid-template-columns: 1fr;
   }
-  .auth-hero-side {
+  .auth-hero-pane {
     border-right: none;
-    border-bottom: 1px solid var(--border-light);
-    padding: 2.5rem 1.75rem;
+    border-bottom: 1px solid #EBECEF;
+    justify-content: center;
+    padding: 3.5rem 2rem;
   }
-  .auth-hero-side .hero-title {
-    font-size: 2.5rem;
+  .auth-hero-pane .hero-title {
+    font-size: 2.85rem;
   }
-  .auth-form-side {
-    padding: 2.5rem 1.75rem;
+  .auth-form-pane {
+    justify-content: center;
+    padding: 3.5rem 1.5rem;
   }
 }
 
+/* Modern Tabs */
 .auth-tabs {
   display: flex;
-  border-bottom: 1px solid #E5E7EB;
-  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #E5E7EB;
+  margin-bottom: 2rem;
+  gap: 1rem;
 }
 
 .auth-tab-btn {
-  flex: 1;
-  padding: 0.75rem 0;
+  padding: 0.75rem 0.5rem;
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--text-muted);
+  font-size: 1.05rem;
+  color: #6B7280;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+.auth-tab-btn:hover {
+  color: #11141A;
 }
 
 .auth-tab-btn.active {
@@ -194,49 +248,55 @@
 }
 
 .form-group-portal {
-  margin-bottom: 1.15rem;
+  margin-bottom: 1.35rem;
 }
 
 .form-group-portal label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #374151;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 
 .form-control-portal {
   width: 100%;
-  padding: 0.65rem 0.85rem;
-  border: 1px solid #D1D5DB;
+  padding: 0.8rem 1rem;
+  border: 1.5px solid #D1D5DB;
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-family: var(--font-body);
-  transition: border-color 0.2s;
+  transition: all 0.2s;
+  background: #ffffff;
 }
 
 .form-control-portal:focus {
   outline: none;
   border-color: var(--accent-orange);
-  box-shadow: 0 0 0 3px rgba(222, 90, 30, 0.1);
+  box-shadow: 0 0 0 3px rgba(222, 90, 30, 0.12);
 }
 
 .btn-portal-submit {
   width: 100%;
-  padding: 0.8rem 1.25rem;
+  padding: 0.9rem 1.5rem;
   background: #11141A;
   color: #ffffff;
   border: none;
   border-radius: 6px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.1s;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.btn-portal-submit:hover {
+  background: var(--accent-orange);
 }
 
 .btn-portal-submit:hover {
