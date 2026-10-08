@@ -192,7 +192,7 @@
   </footer>
 
   <script type="module">
-    import { registerUser, loginUser, signInWithGoogle, checkRedirectResult, subscribeToAuth } from './assets/js/firebase-config.js';
+    import { registerUser, loginUser, signInWithGoogle, checkRedirectResult, subscribeToAuth, isAdminEmail } from './assets/js/firebase-config.js';
 
     const tabLogin = document.getElementById('tab-login-btn');
     const tabRegister = document.getElementById('tab-register-btn');
@@ -289,8 +289,15 @@
     }
 
     function redirectUser(user) {
-      // User requested: redirect to home page (index.html) after login
-      window.location.href = 'index.html';
+      const email = user ? (user.email || '') : '';
+      const isAdmin = (user && user.role === 'admin') || isAdminEmail(email);
+      if (isAdmin) {
+        // Editorial Board Admin -> redirect directly to Admin Dashboard!
+        window.location.href = 'admin-dashboard.html';
+      } else {
+        // Author / User -> redirect to home page
+        window.location.href = 'index.html';
+      }
     }
 
     // Handle Login
@@ -308,9 +315,13 @@
         showAlert('Sign in successful! Redirecting...', true);
         setTimeout(() => redirectUser(user), 500);
       } catch (err) {
-        showAlert(err.message || 'Login failed. Please check credentials.');
+        let msg = err.message || 'Login failed. Please check credentials.';
+        if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+          msg = 'Invalid credentials. If you signed in with Google previously, please click "Continue with Google" below, or register via the "Sign Up" tab.';
+        }
+        showAlert(msg);
         btn.disabled = false;
-        btn.textContent = 'Sign In →';
+        btn.textContent = 'Sign In to Dashboard →';
       }
     });
 

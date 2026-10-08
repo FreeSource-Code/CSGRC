@@ -219,19 +219,28 @@ export async function registerUser({ email, password, fullName, institution, rol
  */
 export async function loginUser(email, password) {
   if (isConfigured && auth && db) {
-    const cred = await signInWithEmailAndPassword(auth, email, password);
-    const userDoc = await getDoc(doc(db, 'users', cred.user.uid));
-    let profile;
-    if (userDoc.exists()) {
-      profile = userDoc.data();
-    } else {
-      profile = {
-        uid: cred.user.uid,
-        email: cred.user.email,
-        fullName: cred.user.displayName || 'User',
-        role: 'author'
-      };
-    }
+    const cred = await signInWithEmailAndPassword(auth, email.trim(), password);
+    const isEditorialAdmin = isAdminEmail(cred.user.email);
+    const assignedRole = isEditorialAdmin ? 'admin' : 'user';
+    const realName = formatDisplayName(cred.user.displayName, cred.user.email);
+
+    let profile = {
+      uid: cred.user.uid,
+      email: cred.user.email,
+      fullName: realName,
+      role: assignedRole
+    };
+
+    try {
+      const userDoc = await getDoc(doc(db, 'users', cred.user.uid));
+      if (userDoc.exists()) {
+        profile = { ...userDoc.data(), ...profile };
+      }
+      profile.role = assignedRole;
+      profile.email = cred.user.email;
+      await setDoc(doc(db, 'users', cred.user.uid), profile, { merge: true });
+    } catch (_) {}
+
     setLocalData(STORAGE_KEYS.CURRENT_USER, profile);
     return profile;
   } else {
@@ -327,34 +336,32 @@ export function formatDisplayName(displayName, email) {
  */
 async function syncGoogleUser(user) {
   const userDocRef = doc(db, 'users', user.uid);
-  const userSnap = await getDoc(userDocRef);
   const isEditorialAdmin = isAdminEmail(user.email);
   const assignedRole = isEditorialAdmin ? 'admin' : 'user';
   const realName = formatDisplayName(user.displayName, user.email);
 
-  let profile;
-  if (!userSnap.exists()) {
-    profile = {
-      uid: user.uid,
-      email: user.email,
-      fullName: realName,
-      institution: isEditorialAdmin ? 'Bentham Science Editorial Board' : '',
-      role: assignedRole,
-      createdAt: serverTimestamp()
-    };
-    await setDoc(userDocRef, profile);
-  } else {
-    profile = userSnap.data();
-    // Enforce real name and role strictly based on Google account & admin whitelist
-    profile.fullName = realName;
+  let profile = {
+    uid: user.uid,
+    email: user.email,
+    fullName: realName,
+    institution: isEditorialAdmin ? 'Bentham Science Editorial Board' : '',
+    role: assignedRole,
+    createdAt: serverTimestamp()
+  };
+
+  try {
+    const userSnap = await getDoc(userDocRef);
+    if (userSnap.exists()) {
+      profile = { ...userSnap.data(), ...profile };
+    }
+    profile.email = user.email;
     profile.role = assignedRole;
-    try {
-      await updateDoc(userDocRef, {
-        fullName: realName,
-        role: assignedRole
-      });
-    } catch (_) {}
+    profile.fullName = realName;
+    await setDoc(userDocRef, profile, { merge: true });
+  } catch (err) {
+    console.warn("Firestore sync skipped:", err);
   }
+
   setLocalData(STORAGE_KEYS.CURRENT_USER, profile);
   return profile;
 }
@@ -478,34 +485,32 @@ export function subscribeToAuth(callback) {
   if (isConfigured && auth && db) {
     return onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
+        const isEditorialAdmin = isAdminEmail(firebaseUser.email);
+        const realName = formatDisplayName(firebaseUser.displayName, firebaseUser.email);
+        let fullUser = {
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          fullName: realName,
+          role: isEditorialAdmin ? 'admin' : 'user'
+        };
+
         try {
           const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-          const isEditorialAdmin = isAdminEmail(firebaseUser.email);
-          const realName = formatDisplayName(firebaseUser.displayName, firebaseUser.email);
-          let fullUser = userDoc.exists()
-            ? userDoc.data()
-            : {
-                uid: firebaseUser.uid,
-                email: firebaseUser.email,
-                fullName: realName,
-                role: isEditorialAdmin ? 'admin' : 'user'
-              };
-
-          // Always enforce current real name and role
-          if (!fullUser.fullName || fullUser.fullName.toLowerCase() === 'google researcher' || fullUser.fullName.toLowerCase() === 'google user' || firebaseUser.displayName) {
-            fullUser.fullName = realName;
+          if (userDoc.exists()) {
+            fullUser = { ...userDoc.data(), ...fullUser };
           }
-          fullUser.role = isEditorialAdmin ? 'admin' : 'user';
-
-          setLocalData(STORAGE_KEYS.CURRENT_USER, fullUser);
-          callback(fullUser);
-        } catch {
-          const fallback = getLocalData(STORAGE_KEYS.CURRENT_USER, null);
-          if (fallback) {
-            fallback.role = isAdminEmail(fallback.email) ? 'admin' : 'user';
-            callback(fallback);
-          }
+        } catch (dbErr) {
+          console.warn("Could not load user doc from Firestore:", dbErr);
         }
+
+        fullUser.email = firebaseUser.email;
+        fullUser.role = isEditorialAdmin ? 'admin' : 'user';
+        if (!fullUser.fullName || fullUser.fullName.toLowerCase() === 'google researcher' || fullUser.fullName.toLowerCase() === 'google user' || firebaseUser.displayName) {
+          fullUser.fullName = realName;
+        }
+
+        setLocalData(STORAGE_KEYS.CURRENT_USER, fullUser);
+        callback(fullUser);
       } else {
         // Firebase reported no user. If user explicitly logged out (STORAGE_KEYS.CURRENT_USER is removed),
         // notify null.
