@@ -178,42 +178,37 @@
   color: var(--border-medium);
 }
 
-/* Right Form Pane (Clean, Seamless White, No Awkward Gap) */
+/* Right Form Pane (Clean, Seamless White, Perfectly Matches Left Side) */
 .auth-form-pane {
   background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 4rem 5vw 4rem 3.5rem;
+  padding: 4.5rem 5vw 4.5rem 4.5rem;
   box-sizing: border-box;
 }
 
-/* Pro-Level Form Card & Components */
-.auth-form-card-wide {
-  max-width: 480px;
+/* Pro-Level Form Inner (Seamless, Equal Scale, No Enclosed Small Box) */
+.auth-form-inner {
+  max-width: 520px;
   width: 100%;
-  background: #ffffff;
-  border: 1px solid #EBECEF;
-  border-radius: 14px;
-  padding: 2.75rem 2.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-  position: relative;
 }
 
 .auth-card-heading {
   font-family: var(--font-display);
-  font-size: 1.65rem;
+  font-size: 2.35rem;
   font-weight: 800;
   color: #11141A;
-  margin-bottom: 0.35rem;
-  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
 }
 
 .auth-card-subtext {
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   color: #64748B;
-  margin-bottom: 1.75rem;
-  line-height: 1.5;
+  margin-bottom: 2.25rem;
+  line-height: 1.55;
 }
 
 /* iOS-Style Pro Segmented Control */
