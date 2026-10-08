@@ -273,24 +273,43 @@ export async function loginUser(email, password) {
 }
 
 /**
- * Sync Google User into Firestore
+ * Editorial Board Admin Emails
+ */
+export const ADMIN_EMAILS = [
+  'waliaishanipshita@gmail.com',
+  'cgrc2027@gmail.com',
+  'admin@cgrc.org'
+];
+
+/**
+ * Sync Google User into Firestore (Ensures privacy role separation)
  */
 async function syncGoogleUser(user) {
   const userDocRef = doc(db, 'users', user.uid);
   const userSnap = await getDoc(userDocRef);
+  const isEditorialAdmin = user.email && ADMIN_EMAILS.some(e => e.toLowerCase() === user.email.toLowerCase());
+  const assignedRole = isEditorialAdmin ? 'admin' : 'author';
+
   let profile;
   if (!userSnap.exists()) {
     profile = {
       uid: user.uid,
       email: user.email,
       fullName: user.displayName || 'Google User',
-      institution: '',
-      role: 'author',
+      institution: isEditorialAdmin ? 'Bentham Science Editorial Board' : '',
+      role: assignedRole,
       createdAt: serverTimestamp()
     };
     await setDoc(userDocRef, profile);
   } else {
     profile = userSnap.data();
+    // Auto-promote editorial email to admin if needed
+    if (isEditorialAdmin && profile.role !== 'admin') {
+      profile.role = 'admin';
+      try {
+        await updateDoc(userDocRef, { role: 'admin' });
+      } catch (_) {}
+    }
   }
   setLocalData(STORAGE_KEYS.CURRENT_USER, profile);
   return profile;
