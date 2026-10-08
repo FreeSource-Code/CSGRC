@@ -273,22 +273,41 @@ export async function loginUser(email, password) {
 }
 
 /**
- * Editorial Board Admin Emails
+ * Official Editorial Board Admin Emails Whitelist
+ * ONLY these 6 accounts have access to the Portal & submission management:
+ * 1. ns55254@gmail.com
+ * 2. shambhu.bhardwaj@gmail.com
+ * 3. ankursaxena19june@gmail.com
+ * 4. atulmalhotra@gmail.com
+ * 5. danishather@gmail.com
+ * 6. waliaishanipshita@gmail.com
  */
 export const ADMIN_EMAILS = [
-  'waliaishanipshita@gmail.com',
-  'cgrc2027@gmail.com',
-  'admin@cgrc.org'
+  'ns55254@gmail.com',
+  'shambhu.bhardwaj@gmail.com',
+  'ankursaxena19june@gmail.com',
+  'atulmalhotra@gmail.com',
+  'danishather@gmail.com',
+  'waliaishanipshita@gmail.com'
 ];
 
 /**
- * Sync Google User into Firestore (Ensures privacy role separation)
+ * Check if an email belongs to the authorized Editorial Board Admins
+ */
+export function isAdminEmail(email) {
+  if (!email) return false;
+  const clean = email.trim().toLowerCase();
+  return ADMIN_EMAILS.some(admin => admin.trim().toLowerCase() === clean);
+}
+
+/**
+ * Sync Google User into Firestore (Ensures strict role separation)
  */
 async function syncGoogleUser(user) {
   const userDocRef = doc(db, 'users', user.uid);
   const userSnap = await getDoc(userDocRef);
-  const isEditorialAdmin = user.email && ADMIN_EMAILS.some(e => e.toLowerCase() === user.email.toLowerCase());
-  const assignedRole = isEditorialAdmin ? 'admin' : 'author';
+  const isEditorialAdmin = isAdminEmail(user.email);
+  const assignedRole = isEditorialAdmin ? 'admin' : 'user';
 
   let profile;
   if (!userSnap.exists()) {
@@ -303,13 +322,11 @@ async function syncGoogleUser(user) {
     await setDoc(userDocRef, profile);
   } else {
     profile = userSnap.data();
-    // Auto-promote editorial email to admin if needed
-    if (isEditorialAdmin && profile.role !== 'admin') {
-      profile.role = 'admin';
-      try {
-        await updateDoc(userDocRef, { role: 'admin' });
-      } catch (_) {}
-    }
+    // Enforce role strictly based on the 6 admin emails whitelist
+    profile.role = assignedRole;
+    try {
+      await updateDoc(userDocRef, { role: assignedRole });
+    } catch (_) {}
   }
   setLocalData(STORAGE_KEYS.CURRENT_USER, profile);
   return profile;
@@ -418,8 +435,9 @@ export async function logoutUser() {
  */
 export function subscribeToAuth(callback) {
   // 1. Synchronously trigger callback with cached session so page refresh has ZERO delay or login prompt!
-  const savedUser = getLocalData(STORAGE_KEYS.CURRENT_USER, null);
+  let savedUser = getLocalData(STORAGE_KEYS.CURRENT_USER, null);
   if (savedUser) {
+    savedUser.role = isAdminEmail(savedUser.email) ? 'admin' : 'user';
     callback(savedUser);
   }
 
@@ -429,19 +447,24 @@ export function subscribeToAuth(callback) {
       if (firebaseUser) {
         try {
           const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-          const fullUser = userDoc.exists()
+          const isEditorialAdmin = isAdminEmail(firebaseUser.email);
+          let fullUser = userDoc.exists()
             ? userDoc.data()
             : {
                 uid: firebaseUser.uid,
                 email: firebaseUser.email,
                 fullName: firebaseUser.displayName || 'User',
-                role: 'author'
+                role: isEditorialAdmin ? 'admin' : 'user'
               };
+          fullUser.role = isEditorialAdmin ? 'admin' : 'user';
           setLocalData(STORAGE_KEYS.CURRENT_USER, fullUser);
           callback(fullUser);
         } catch {
           const fallback = getLocalData(STORAGE_KEYS.CURRENT_USER, null);
-          if (fallback) callback(fallback);
+          if (fallback) {
+            fallback.role = isAdminEmail(fallback.email) ? 'admin' : 'user';
+            callback(fallback);
+          }
         }
       } else {
         // Firebase reported no user. If user explicitly logged out (STORAGE_KEYS.CURRENT_USER is removed),

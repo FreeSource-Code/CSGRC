@@ -175,15 +175,21 @@
       logoutUser,
       uploadManuscriptFile,
       createChapterSubmission,
-      getAuthorSubmissions
+      getAuthorSubmissions,
+      isAdminEmail
     } from './assets/js/firebase-config.js';
 
     let currentUser = null;
 
-    // Check Authentication
+    // Check Authentication (Strictly 6 Whitelisted Editorial Emails)
     subscribeToAuth((user) => {
       if (!user) {
         window.location.href = 'auth.html';
+        return;
+      }
+      if (!isAdminEmail(user.email)) {
+        alert('Access Denied: Portal access is strictly reserved for the 6 authorized Editorial Board Administrators.');
+        window.location.href = 'index.html';
         return;
       }
       currentUser = user;

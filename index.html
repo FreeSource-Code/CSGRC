@@ -742,7 +742,7 @@
 
   <!-- Navbar Live Auth State Listener -->
   <script type="module">
-    import { subscribeToAuth, logoutUser } from './assets/js/firebase-config.js';
+    import { subscribeToAuth, logoutUser, isAdminEmail } from './assets/js/firebase-config.js';
 
     const authSlot = document.getElementById('nav-auth-slot');
     const submitCta = document.getElementById('nav-submit-cta');
@@ -751,7 +751,7 @@
       if (user) {
         // User is logged in: Hide LOGIN / SIGN UP, display User Name
         const displayName = user.fullName || user.email || 'Researcher';
-        const isAdmin = user.role === 'admin';
+        const isAdmin = user.role === 'admin' || isAdminEmail(user.email);
 
         if (authSlot) {
           authSlot.innerHTML = `
