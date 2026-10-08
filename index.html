@@ -749,21 +749,22 @@
 
     subscribeToAuth((user) => {
       if (user) {
-        // User is logged in: Hide LOGIN / SIGN UP, display User Name + Author Portal link
+        // User is logged in: Hide LOGIN / SIGN UP, display User Name
         const displayName = user.fullName || user.email || 'Researcher';
-        const portalUrl = user.role === 'admin' ? 'admin-dashboard.html' : 'author-dashboard.html';
-        const portalLabel = user.role === 'admin' ? 'ADMIN PORTAL ↗' : 'AUTHOR PORTAL ↗';
+        const isAdmin = user.role === 'admin';
 
         if (authSlot) {
           authSlot.innerHTML = `
             <div class="nav-user-container">
-              <a href="${portalUrl}" class="nav-user-pill" title="Open Your Dashboard">
+              <span class="nav-user-pill" title="Logged in as ${displayName}">
                 <span class="nav-user-dot"></span>
                 <span>${displayName}</span>
-              </a>
-              <a href="${portalUrl}" class="nav-portal-btn">
-                ${portalLabel}
-              </a>
+              </span>
+              ${isAdmin ? `
+                <a href="admin-dashboard.html" class="nav-portal-btn" style="background: rgba(222, 90, 30, 0.12); color: var(--accent-orange); font-weight: 700;">
+                  ADMIN PORTAL ↗
+                </a>
+              ` : ''}
               <button type="button" class="nav-logout-btn" id="nav-btn-logout" title="Sign Out">
                 Sign Out
               </button>
@@ -780,9 +781,9 @@
           }
         }
 
-        // When logged in, SUBMIT in navbar takes author to their dashboard directly
+        // Normal users only submit their papers
         if (submitCta) {
-          submitCta.href = portalUrl;
+          submitCta.href = 'submit.html';
         }
       } else {
         // Logged out state: Restore LOGIN / SIGN UP
