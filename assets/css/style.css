@@ -2941,171 +2941,25 @@ body.cursor-hover .custom-cursor-dot {
   align-items: center;
 }
 
-/* ==========================================================================
-   MICROSOFT CMT PRO LEVEL EDITORIAL CARD
-   ========================================================================== */
-.cmt-pro-card {
-  max-width: 960px;
-  margin: 0 auto 3.75rem auto;
-  background: #FFFFFF;
-  border: 1px solid #E2E8F0;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
-  padding: 1.75rem 2.25rem;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.cmt-pro-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #F25022 0%, #7FBA00 33%, #00A4EF 66%, #FFB900 100%);
-}
-
-.cmt-pro-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px -4px rgba(15, 23, 42, 0.09);
-}
-
-.cmt-pro-grid {
-  display: grid;
-  grid-template-columns: 245px 1px 1fr;
-  gap: 2rem;
-  align-items: center;
-}
-
-/* Left Pane: Branding */
-.cmt-brand-pane {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-}
-
-.msft-logo-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-}
-
-.msft-grid-logo {
-  display: grid;
-  grid-template-columns: repeat(2, 9px);
-  grid-template-rows: repeat(2, 9px);
-  gap: 2.5px;
-  width: 21px;
-  height: 21px;
-  flex-shrink: 0;
-}
-
-.msft-sq {
-  border-radius: 1px;
-  display: block;
-}
-.msft-sq.red { background-color: #F25022; }
-.msft-sq.green { background-color: #7FBA00; }
-.msft-sq.blue { background-color: #00A4EF; }
-.msft-sq.yellow { background-color: #FFB900; }
-
-.msft-brand-titles {
-  display: flex;
-  flex-direction: column;
-}
-
-.msft-title-main {
-  font-family: var(--font-display, 'Plus Jakarta Sans', sans-serif);
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--text-main, #0F1216);
-  letter-spacing: -0.015em;
-  line-height: 1.2;
-}
-
-.msft-title-sub {
-  font-family: var(--font-mono, 'Fira Code', monospace);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  color: #64748B;
-  letter-spacing: 0.02em;
-  margin-top: 0.2rem;
-}
-
-.cmt-meta-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--font-mono, 'Fira Code', monospace);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  color: #0284C7;
-  background: #F0F9FF;
-  border: 1px solid #BAE6FD;
-  padding: 0.25rem 0.65rem;
-  border-radius: 9999px;
-  width: fit-content;
-  letter-spacing: 0.04em;
-}
-
-.cmt-meta-pill svg {
-  stroke: #0284C7;
-  flex-shrink: 0;
-}
-
-/* Center Divider */
-.cmt-pane-divider {
-  width: 1px;
-  height: 100%;
-  min-height: 72px;
-  background: #E2E8F0;
-}
-
-/* Right Pane: Statement */
-.cmt-statement-pane {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  text-align: left;
-}
-
-.cmt-statement-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono, 'Fira Code', monospace);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.cmt-kicker-tag {
-  color: var(--accent-orange, #DE5A1E);
-}
-
-.cmt-dot-sep {
-  color: #CBD5E1;
-}
-
-.cmt-kicker-desc {
-  color: #64748B;
-}
-
-.cmt-statement-text {
+.footer-cmt-line {
   font-family: var(--font-body, 'Inter', sans-serif);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.68;
-  color: #334155;
-  margin: 0;
-  letter-spacing: -0.005em;
+  color: var(--text-secondary, #4B5563);
+  max-width: 820px;
+  width: 100%;
+  margin: 0 auto 2.25rem auto;
+  text-align: center;
+  padding: 1.15rem 1.65rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-light, #EBEBEB);
+  border-radius: var(--radius-sm, 4px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
-.cmt-statement-text strong {
-  color: #0F172A;
-  font-weight: 700;
+.footer-cmt-line strong {
+  color: var(--text-main, #0F1216);
+  font-weight: 600;
 }
 
 .footer-invite-motto {
@@ -3219,29 +3073,15 @@ body.cursor-hover .custom-cursor-dot {
   color: #FFFFFF;
 }
 
-@media (max-width: 860px) {
-  .cmt-pro-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-  .cmt-pane-divider {
-    width: 100%;
-    height: 1px;
-    min-height: 1px;
-  }
-  .cmt-pro-card {
-    padding: 1.4rem 1.4rem;
-    margin-bottom: 2.75rem;
-  }
-  .cmt-statement-meta {
-    flex-wrap: wrap;
-    gap: 0.35rem;
-  }
-}
-
 @media (max-width: 768px) {
   .footer-invite-wrap {
     padding: 3rem 0 2.5rem;
+  }
+  .footer-cmt-line {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.75rem;
   }
   .footer-invite-text {
     font-size: 1.25rem;
