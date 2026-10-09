@@ -2941,6 +2941,75 @@ body.cursor-hover .custom-cursor-dot {
   align-items: center;
 }
 
+.footer-cmt-notice {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light, #EBEBEB);
+  border-top: 2px solid var(--accent-orange, #DE5A1E);
+  border-radius: var(--radius-sm, 4px);
+  padding: 1.75rem 2.25rem 1.85rem;
+  margin-bottom: 3rem;
+  max-width: 820px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.footer-cmt-notice:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.08);
+}
+
+.cmt-notice-header {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.cmt-notice-mono-tag {
+  font-family: var(--font-mono, 'Fira Code', monospace);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent-orange, #DE5A1E);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cmt-notice-dot {
+  color: var(--accent-orange, #DE5A1E);
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.cmt-notice-mono-sub {
+  font-family: var(--font-mono, 'Fira Code', monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted, #8E98A8);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cmt-notice-text {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-secondary, #4B5563);
+  margin: 0;
+  max-width: 760px;
+  letter-spacing: -0.01em;
+}
+
+.cmt-notice-text strong {
+  color: var(--text-main, #0F1216);
+  font-weight: 700;
+}
+
 .footer-invite-motto {
   font-family: var(--font-mono);
   font-size: 0.8125rem;
@@ -3055,6 +3124,18 @@ body.cursor-hover .custom-cursor-dot {
 @media (max-width: 768px) {
   .footer-invite-wrap {
     padding: 3rem 0 2.5rem;
+  }
+  .footer-cmt-notice {
+    padding: 1.25rem 1.25rem 1.35rem;
+    margin-bottom: 2.25rem;
+  }
+  .cmt-notice-header {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .cmt-notice-text {
+    font-size: 0.875rem;
+    line-height: 1.65;
   }
   .footer-invite-text {
     font-size: 1.25rem;
